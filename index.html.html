@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Club de lecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --serif:'Libre Baskerville',serif;
+  --sans:'DM Sans',sans-serif;
+  --ink:#1a1a18;
+  --ink2:#555550;
+  --ink3:#999890;
+  --bg:#faf9f6;
+  --bg2:#f2f0eb;
+  --bg3:#eae8e2;
+  --border:#e0ddd5;
+  --border2:#c8c5bc;
+  --accent:#7a5230;
+  --accent-light:#f5ede4;
+  --accent-mid:#c49a72;
+}
+body{font-family:var(--sans);color:var(--ink);background:var(--bg);font-size:14px;line-height:1.6;min-height:100vh}
+.container{max-width:780px;margin:0 auto;padding:2.5rem 1.5rem}
+.site-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:2rem;padding-bottom:1.25rem;border-bottom:0.5px solid var(--border)}
+.site-title{font-family:var(--serif);font-size:20px;font-weight:400;letter-spacing:.01em;color:var(--ink)}
+.site-meta{font-size:12px;color:var(--ink3)}
+nav{display:flex;gap:3px;margin-bottom:1.75rem;flex-wrap:wrap}
+nav button{font-family:var(--sans);font-size:12px;padding:5px 13px;border-radius:3px;border:0.5px solid transparent;background:transparent;color:var(--ink2);cursor:pointer;transition:all .15s;letter-spacing:.02em}
+nav button.active{border-color:var(--border2);background:var(--bg2);color:var(--ink)}
+nav button:hover:not(.active){color:var(--ink);background:var(--bg2)}
+.page{display:none}.page.active{display:block}
+.card{background:#fff;border:0.5px solid var(--border);border-radius:4px;padding:1rem 1.25rem;margin-bottom:.875rem}
+.card-alt{background:var(--bg2);border:0.5px solid var(--border);border-radius:4px;padding:1rem 1.25rem;margin-bottom:.875rem}
+.label{font-size:10px;font-weight:500;color:var(--ink3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.625rem;display:block}
+.pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:2px}
+.pill-brown{background:var(--accent-light);color:var(--accent)}
+.pill-gray{background:var(--bg2);color:var(--ink2)}
+.pill-green{background:#eaf3de;color:#27500a}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-bottom:1.25rem}
+.m-card{background:var(--bg2);border-radius:3px;padding:.75rem 1rem}
+.m-val{font-family:var(--serif);font-size:22px;font-weight:400;margin-top:2px;color:var(--ink)}
+.m-lbl{font-size:11px;color:var(--ink3)}
+hr.thin{border:none;border-top:0.5px solid var(--border);margin:.875rem 0}
+.seance-theme{font-family:var(--serif);font-size:16px;font-weight:400;font-style:italic;color:var(--ink)}
+.book-row{display:flex;gap:1rem;align-items:flex-start;padding:.75rem 0;border-bottom:0.5px solid var(--border)}
+.book-row:last-child{border-bottom:none}
+.cover{width:44px;height:64px;border-radius:2px;object-fit:cover;flex-shrink:0;border:0.5px solid var(--border)}
+.cover-ph{width:44px;height:64px;border-radius:2px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;border:0.5px solid var(--border)}
+.book-title{font-family:var(--serif);font-size:14px;font-weight:400;line-height:1.3;margin-bottom:2px;color:var(--ink)}
+.book-author{font-size:12px;color:var(--ink2);margin-bottom:4px}
+.res-item{display:flex;gap:8px;align-items:flex-start;padding:7px 0;border-bottom:0.5px solid var(--border)}
+.res-item:last-child{border-bottom:none}
+.res-badge{font-size:10px;padding:2px 6px;border-radius:2px;font-weight:500;flex-shrink:0;margin-top:2px;white-space:nowrap}
+.badge-film{background:#e6f1fb;color:#0c447c}
+.badge-texte{background:#eaf3de;color:#27500a}
+.badge-théorie{background:#eeedfe;color:#3c3489}
+.badge-audio{background:#faece7;color:#712b13}
+.badge-image{background:#f1efe8;color:#444441}
+.q-row{padding:8px 0;border-bottom:0.5px solid var(--border);font-size:13px;line-height:1.55;color:var(--ink)}
+.q-row:last-child{border-bottom:none}
+.tt{width:100%;border-collapse:collapse;font-size:12px}
+.tt th{text-align:left;font-size:10px;font-weight:500;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em;padding:5px 8px;border-bottom:0.5px solid var(--border);background:#fff}
+.tt td{padding:8px 8px;border-bottom:0.5px solid var(--border);vertical-align:middle}
+.tt tr:last-child td{border-bottom:none}
+.dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:5px}
+.dg{background:#1d9e75}.da{background:#ba7517}.dx{background:#888780}
+.stars{color:#ba7517;letter-spacing:-1px;font-size:12px}
+.prog{height:3px;background:var(--bg3);border-radius:2px;margin-top:4px}
+.prog-f{height:3px;border-radius:2px;background:var(--accent)}
+textarea{width:100%;min-height:100px;font-size:13px;font-family:var(--sans);border:0.5px solid var(--border);border-radius:3px;padding:9px;background:var(--bg2);color:var(--ink);resize:vertical;outline:none}
+textarea:focus{border-color:var(--border2)}
+input[type=text]{font-size:12px;padding:7px 10px;border:0.5px solid var(--border);border-radius:3px;background:var(--bg2);color:var(--ink);font-family:var(--sans);outline:none;width:100%}
+input[type=text]:focus{border-color:var(--border2)}
+.btn-p{background:var(--ink);color:var(--bg);border:none;padding:7px 16px;border-radius:3px;font-size:12px;cursor:pointer;font-family:var(--sans);transition:opacity .15s}
+.btn-p:hover{opacity:.85}
+.btn-s{background:transparent;color:var(--ink);border:0.5px solid var(--border2);padding:6px 12px;border-radius:3px;font-size:12px;cursor:pointer;font-family:var(--sans);transition:background .15s}
+.btn-s:hover{background:var(--bg2)}
+.sheet-info{background:var(--accent-light);border:0.5px solid var(--border);border-radius:3px;padding:.75rem 1rem;margin-bottom:1rem;font-size:12px;color:var(--accent);line-height:1.6}
+.no-data{font-size:13px;color:var(--ink3);font-style:italic;padding:.5rem 0}
+.past-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid var(--border)}
+.past-row:last-child{border-bottom:none}
+.seance-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem}
+.step{background:var(--bg2);border-radius:3px;padding:.625rem .875rem;margin-bottom:6px;font-size:13px;line-height:1.5;color:var(--ink)}
+.step strong{font-weight:500;color:var(--accent)}
+@media(max-width:600px){
+  .container{padding:1.5rem 1rem}
+  .site-header{flex-direction:column;gap:.25rem}
+  .metrics{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="site-header">
+  <span class="site-title">Club de lecture</span>
+  <span class="site-meta" id="next-header"></span>
+</div>
+
+<nav>
+  <button class="active" onclick="show('accueil',this)">Accueil</button>
+  <button onclick="show('seances',this)">Séances</button>
+  <button onclick="show('livres',this)">Livres & ressources</button>
+  <button onclick="show('tracker',this)">Notes & avis</button>
+  <button onclick="show('transcripts',this)">Transcripts</button>
+</nav>
+
+<div id="accueil" class="page active">
+  <div class="metrics" id="metrics"></div>
+  <div class="card" id="next-card"></div>
+  <div class="card">
+    <span class="label">Séances passées</span>
+    <div id="past-list"></div>
+  </div>
+</div>
+
+<div id="seances" class="page">
+  <div id="all-seances"></div>
+</div>
+
+<div id="livres" class="page">
+  <div id="livres-content"></div>
+  <div class="card-alt">
+    <span class="label">Références théoriques — toutes séances</span>
+    <div class="res-item"><span class="res-badge badge-théorie">Théorie</span><div><div style="font-size:13px;font-weight:500">Sur la révolution — Hannah Arendt (1963)</div><div style="font-size:12px;color:var(--ink2)">La distinction fondatrice entre révolution et révolte. Accessible, incontournable.</div></div></div>
+    <div class="res-item"><span class="res-badge badge-théorie">Théorie</span><div><div style="font-size:13px;font-weight:500">States and Social Revolutions — Theda Skocpol (1979)</div><div style="font-size:12px;color:var(--ink2)">Approche structurale comparée. Pourquoi certaines révolutions aboutissent et d'autres non.</div></div></div>
+    <div class="res-item"><span class="res-badge badge-théorie">Théorie</span><div><div style="font-size:13px;font-weight:500">L'Ancien Régime et la Révolution — Tocqueville (1856)</div><div style="font-size:12px;color:var(--ink2)">Pourquoi les révolutions éclatent quand les conditions s'améliorent. Paradoxe fondateur.</div></div></div>
+    <div class="res-item"><span class="res-badge badge-théorie">Théorie</span><div><div style="font-size:13px;font-weight:500">La Révolution trahie — Trotski (1936)</div><div style="font-size:12px;color:var(--ink2)">La confiscation révolutionnaire analysée de l'intérieur. Court et percutant.</div></div></div>
+    <div class="res-item"><span class="res-badge badge-théorie">Théorie</span><div><div style="font-size:13px;font-weight:500">L'Hypothèse communiste — Alain Badiou (2009)</div><div style="font-size:12px;color:var(--ink2)">La révolution comme événement politique pur. Contemporain et exigeant.</div></div></div>
+  </div>
+</div>
+
+<div id="tracker" class="page">
+  <div class="sheet-info">
+    Les notes et commentaires sont renseignés par les membres directement dans un Google Sheet partagé. Entrez l'URL du Sheet publié en CSV pour afficher les données ici.
+  </div>
+  <div class="card">
+    <span class="label">URL du Google Sheet publié (CSV)</span>
+    <div style="display:flex;gap:8px;margin-top:.25rem;flex-wrap:wrap">
+      <input type="text" id="sheet-url" placeholder="https://docs.google.com/spreadsheets/d/.../export?format=csv" style="flex:1;min-width:200px">
+      <button class="btn-p" onclick="loadSheet()">Charger</button>
+    </div>
+    <div style="font-size:11px;color:var(--ink3);margin-top:8px;line-height:1.6">
+      Dans Google Sheets : Fichier → Partager → Publier sur le web → Feuille "Lectures" → Format CSV → Copier le lien
+    </div>
+  </div>
+  <div class="card">
+    <span class="label">Progression — séance en cours</span>
+    <div id="prog-bars"></div>
+  </div>
+  <div class="card">
+    <span class="label">Notes des membres</span>
+    <div id="tracker-table">
+      <div class="no-data">En attente du Google Sheet...</div>
+    </div>
+  </div>
+  <div class="card-alt" style="margin-top:.5rem">
+    <span class="label">Structure du Google Sheet</span>
+    <div style="font-size:12px;color:var(--ink2);line-height:1.7">Créez une feuille nommée <strong style="font-weight:500">Lectures</strong> avec ces 5 colonnes en ligne 1 :</div>
+    <div style="margin-top:.5rem;display:flex;gap:6px;flex-wrap:wrap">
+      <span class="pill pill-brown">Membre</span>
+      <span class="pill pill-brown">Séance</span>
+      <span class="pill pill-brown">Livre</span>
+      <span class="pill pill-brown">Note (1–5)</span>
+      <span class="pill pill-brown">Commentaire</span>
+    </div>
+  </div>
+</div>
+
+<div id="transcripts" class="page">
+  <div class="card">
+    <span class="label">Analyser un transcript</span>
+    <div style="font-size:13px;color:var(--ink2);margin-bottom:.75rem;line-height:1.6">Enregistrez la séance, retranscrivez-la (ou utilisez un outil de transcription automatique), puis collez le texte ici pour en extraire les points essentiels.</div>
+    <div style="font-size:12px;color:var(--ink2);margin-bottom:.75rem;line-height:1.6;font-style:italic">Outils de transcription recommandés : Whisper (gratuit, open source), Otter.ai, ou simplement la transcription automatique de Google Meet.</div>
+    <textarea id="ta" placeholder="Collez le transcript ici..."></textarea>
+    <div style="display:flex;gap:8px;margin-top:.75rem;flex-wrap:wrap">
+      <button class="btn-p" onclick="analyzeT()">Analyser avec Claude ↗</button>
+    </div>
+    <div style="font-size:11px;color:var(--ink3);margin-top:8px">Le bouton ouvre Claude et lui transmet le transcript pour analyse.</div>
+  </div>
+  <div class="card">
+    <span class="label">Archives</span>
+    <div id="archives"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const DATA = {
+  membres: ['Sophie M.','Thomas D.','Claire R.','Marc B.','Julie F.','Antoine L.','Isabelle P.','Pierre V.'],
+  seances: [
+    {
+      id:'s4',
+      theme:'Le moment révolutionnaire',
+      date:'Mai 2025',
+      statut:'à venir',
+      questions:[
+        'Le moment révolutionnaire a-t-il un début identifiable, ou est-il toujours reconstruit après coup ?',
+        'La révolution change-t-elle les hommes ou seulement les structures de pouvoir ?',
+        'Peut-on faire une révolution sans trahir ceux qui l\'ont initiée ?',
+        'Le moment révolutionnaire produit-il nécessairement de la violence ?',
+        'Qu\'est-ce qui survit au moment révolutionnaire — dans les institutions, dans les mémoires ?'
+      ],
+      livres:[
+        {
+          titre:'Lénine',
+          auteur:'Robert Service',
+          couleur:'#B5D4F4',texte:'#0C447C',
+          resume:'La biographie de référence. Service montre comment Lénine construit le moment révolutionnaire par la volonté, en rupture avec le déterminisme marxiste classique.',
+          isbn:'9780330491228'
+        },
+        {
+          titre:'Le Shah',
+          auteur:'Ryszard Kapuściński',
+          couleur:'#9FE1CB',texte:'#085041',
+          resume:'Kapuściński observe la chute du régime Pahlavi depuis l\'intérieur de l\'Iran. Le moment révolutionnaire saisi dans sa réalité quotidienne, depuis l\'antichambre de l\'effondrement.',
+          isbn:'9782020148351'
+        },
+        {
+          titre:'Les Révolutions d\'Amérique latine',
+          auteur:'Pierre Vayssière',
+          couleur:'#FAC775',texte:'#633806',
+          resume:'Une synthèse des révolutions latino-américaines du XXe siècle. La révolution comme phénomène en série, chaque soulèvement hanté par les précédents.',
+          isbn:'9782020129909'
+        },
+        {
+          titre:'La Grande Révolution chinoise 1800–1989',
+          auteur:'John King Fairbank',
+          couleur:'#CECBF6',texte:'#3C3489',
+          resume:'Le moment révolutionnaire dilué dans le temps long de la civilisation chinoise. Fairbank interroge la prétention révolutionnaire à faire l\'histoire sur fond de continuité multiséculaire.',
+          isbn:'9782070328536'
+        }
+      ],
+      ressources:[
+        {type:'Film',titre:'L\'Internationale — Chris Marker (1970)',note:'18 min. Sur la persistance du mythe révolutionnaire à travers le temps.'},
+        {type:'Texte',titre:'Les Thèses d\'avril — Lénine (1917)',note:'Lénine formulant le moment révolutionnaire en temps réel. 20 minutes de lecture.'},
+        {type:'Film',titre:'Persepolis — Satrapi / Paronnaud (2007)',note:'La révolution iranienne vécue de l\'intérieur, dans la durée ordinaire.'},
+        {type:'Audio',titre:'Discours d\'Allende à la radio, 11 sept. 1973',note:'Document sonore sur la fin d\'un moment révolutionnaire, diffusé pendant le coup d\'État.'},
+        {type:'Film',titre:'No — Pablo Larraín (2012)',note:'La fin de Pinochet par referendum. Le moment révolutionnaire inversé.'},
+        {type:'Film',titre:'Adieu ma concubine — Chen Kaige (1993)',note:'La Révolution culturelle traversée sur plusieurs décennies.'},
+        {type:'Texte',titre:'Discours de Khomeini à Neauphle-le-Château (1978)',note:'Le moment révolutionnaire depuis son antichambre parisienne.'},
+        {type:'Image',titre:'Photographie de Tiananmen (1989)',note:'Le moment révolutionnaire manqué. Boucle la chronologie de Fairbank.'}
+      ]
+    },
+    {
+      id:'s3',
+      theme:'Construire l\'État',
+      date:'4 mai 2025',
+      statut:'à venir',
+      questions:[],
+      livres:[
+        {titre:'Richelieu',auteur:'Arnaud Teyssier',couleur:'#F5C4B3',texte:'#712B13',resume:'',isbn:'9782262039691'},
+        {titre:'Homo Domesticus',auteur:'James C. Scott',couleur:'#C0DD97',texte:'#27500A',resume:'',isbn:'9782348046667'},
+        {titre:'Ibn Saoud : Seigneur du désert, roi d\'Arabie',auteur:'Christian Destremau',couleur:'#B5D4F4',texte:'#0C447C',resume:'',isbn:'9782260021698'}
+      ],
+      ressources:[]
+    },
+    {
+      id:'s2',
+      theme:'Espace et destin humain',
+      date:'2025',
+      statut:'passée',
+      questions:[],
+      livres:[
+        {titre:'L\'Étoffe des héros',auteur:'Tom Wolfe',couleur:'#CECBF6',texte:'#3C3489',resume:'',isbn:'9782070374984'},
+        {titre:'La Ruée vers l\'Espace',auteur:'Xavier Pascon',couleur:'#9FE1CB',texte:'#085041',resume:'',isbn:''},
+        {titre:'Nous ne vivrons pas sur Mars, ni ailleurs',auteur:'Sylvia Ekström',couleur:'#FAC775',texte:'#633806',resume:'',isbn:'9791032912737'}
+      ],
+      ressources:[]
+    },
+    {
+      id:'s1',
+      theme:'Le pouvoir et la mer',
+      date:'2024',
+      statut:'passée',
+      questions:[],
+      livres:[
+        {titre:'Histoire de Gênes',auteur:'Fabian Levy',couleur:'#F5C4B3',texte:'#712B13',resume:'',isbn:''},
+        {titre:'Surcouf',auteur:'Michel Vergé-Franceschi',couleur:'#B5D4F4',texte:'#0C447C',resume:'',isbn:'9782262029289'},
+        {titre:'Le Monde confisqué',auteur:'Arnaud Orain',couleur:'#C0DD97',texte:'#27500A',resume:'',isbn:'9782707196552'}
+      ],
+      ressources:[]
+    }
+  ]
+};
+
+function show(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function stars(n){
+  if(!n||isNaN(n)) return '<span style="color:var(--ink3);font-size:11px">—</span>';
+  n=Math.min(5,Math.max(0,parseInt(n)));
+  return '<span class="stars">'+'★'.repeat(n)+'☆'.repeat(5-n)+'</span>';
+}
+
+function badgeClass(t){
+  return {'Film':'badge-film','Texte':'badge-texte','Théorie':'badge-théorie','Audio':'badge-audio','Image':'badge-image'}[t]||'badge-texte';
+}
+
+function coverEl(l){
+  if(l.isbn){
+    return `<img class="cover" src="https://covers.openlibrary.org/b/isbn/${l.isbn}-M.jpg" alt="${l.titre}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="cover-ph" style="background:${l.couleur};color:${l.texte};display:none">${l.titre.substring(0,3)}</div>`;
+  }
+  return `<div class="cover-ph" style="background:${l.couleur};color:${l.texte}">${l.titre.substring(0,3)}</div>`;
+}
+
+function renderAccueil(){
+  const prochaine = DATA.seances.find(s=>s.statut==='à venir');
+  const passees = DATA.seances.filter(s=>s.statut==='passée');
+  const totalLivres = DATA.seances.reduce((a,s)=>a+s.livres.length,0);
+  document.getElementById('next-header').textContent = prochaine ? 'Prochaine : '+prochaine.date : '';
+  document.getElementById('metrics').innerHTML =
+    `<div class="m-card"><div class="m-lbl">Séances</div><div class="m-val">${DATA.seances.length}</div></div>`+
+    `<div class="m-card"><div class="m-lbl">Livres au programme</div><div class="m-val">${totalLivres}</div></div>`+
+    `<div class="m-card"><div class="m-lbl">Membres</div><div class="m-val">${DATA.membres.length}</div></div>`;
+  if(prochaine){
+    document.getElementById('next-card').innerHTML =
+      `<span class="label">Prochaine séance</span>`+
+      `<div class="seance-theme" style="margin-bottom:.25rem">${prochaine.theme}</div>`+
+      `<div style="font-size:12px;color:var(--ink3);margin-bottom:.875rem">${prochaine.date}</div>`+
+      `<hr class="thin">`+
+      `<div style="display:flex;flex-wrap:wrap;gap:5px">${prochaine.livres.map(l=>`<span class="pill pill-brown">${l.titre} — ${l.auteur}</span>`).join('')}</div>`;
+  } else {
+    document.getElementById('next-card').innerHTML='<div class="no-data">Aucune séance prochaine programmée.</div>';
+  }
+  document.getElementById('past-list').innerHTML = passees.length ?
+    passees.map(s=>`<div class="past-row"><div><div style="font-size:13px;font-style:italic;font-family:var(--serif)">${s.theme}</div><div style="font-size:11px;color:var(--ink3)">${s.date} · ${s.livres.length} livres</div></div></div>`).join('') :
+    '<div class="no-data">Aucune séance passée.</div>';
+}
+
+function renderSeances(){
+  document.getElementById('all-seances').innerHTML = DATA.seances.map(s=>{
+    const statusPill = s.statut==='à venir'?`<span class="pill pill-brown">${s.statut}</span>`:s.statut==='passée'?`<span class="pill pill-gray">${s.statut}</span>`:'';
+    const livresHtml = s.livres.map(l=>`<div class="book-row">${coverEl(l)}<div style="flex:1"><div class="book-title">${l.titre}</div><div class="book-author">${l.auteur}</div>${l.resume?`<div style="font-size:12px;color:var(--ink2);line-height:1.55;margin-top:3px">${l.resume}</div>`:''}</div></div>`).join('');
+    const questionsHtml = s.questions.length ? `<hr class="thin"><span class="label">Questions de mise en tension</span><div>${s.questions.map(q=>`<div class="q-row">${q}</div>`).join('')}</div>` : '';
+    return `<div class="card"><div class="seance-header"><div><span class="label">Séance</span><div class="seance-theme">${s.theme}</div><div style="font-size:12px;color:var(--ink3);margin-top:2px">${s.date}</div></div>${statusPill}</div><hr class="thin"><span class="label">Livres</span>${livresHtml}${questionsHtml}</div>`;
+  }).join('');
+}
+
+function renderLivres(){
+  const s = DATA.seances.find(x=>x.id==='s4');
+  if(!s){document.getElementById('livres-content').innerHTML='';return;}
+  const resHtml = s.ressources.length ? s.ressources.map(r=>`<div class="res-item"><span class="res-badge ${badgeClass(r.type)}">${r.type}</span><div><div style="font-size:13px;font-weight:500">${r.titre}</div><div style="font-size:12px;color:var(--ink2);margin-top:2px">${r.note}</div></div></div>`).join('') : '<div class="no-data">Aucune ressource pour cette séance.</div>';
+  document.getElementById('livres-content').innerHTML =
+    `<div class="card"><span class="label">Livres — ${s.theme}</span>${s.livres.map(l=>`<div class="book-row">${coverEl(l)}<div style="flex:1"><div class="book-title">${l.titre}</div><div class="book-author">${l.auteur}</div>${l.resume?`<div style="font-size:12px;color:var(--ink2);line-height:1.55;margin-top:3px">${l.resume}</div>`:''}</div></div>`).join('')}</div>`+
+    `<div class="card"><span class="label">Ressources annexes — ${s.theme}</span>${resHtml}</div>`;
+}
+
+function renderTracker(){
+  const s = DATA.seances.find(x=>x.id==='s4');
+  if(!s) return;
+  document.getElementById('prog-bars').innerHTML = s.livres.map(l=>`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span>${l.titre}</span><span style="color:var(--ink3)">0/${DATA.membres.length}</span></div><div class="prog"><div class="prog-f" style="width:0%"></div></div></div>`).join('');
+}
+
+function renderArchives(){
+  const passees = DATA.seances.filter(s=>s.statut==='passée');
+  document.getElementById('archives').innerHTML = passees.length ?
+    passees.map(s=>`<div class="past-row"><div><div style="font-size:13px;font-style:italic;font-family:var(--serif)">${s.theme}</div><div style="font-size:11px;color:var(--ink3)">${s.date}</div></div><span class="pill pill-gray">Pas de transcript</span></div>`).join('') :
+    '<div class="no-data">Aucun transcript archivé.</div>';
+}
+
+function loadSheet(){
+  const url = document.getElementById('sheet-url').value.trim();
+  if(!url){alert('Veuillez entrer une URL.');return;}
+  const el = document.getElementById('tracker-table');
+  el.innerHTML='<div class="no-data">Chargement...</div>';
+  fetch(url)
+    .then(r=>{if(!r.ok) throw new Error();return r.text();})
+    .then(csv=>{
+      const rows = csv.trim().split('\n').map(r=>{
+        const cells=[];let cur='',inQ=false;
+        for(let c of r){if(c==='"'){inQ=!inQ;}else if(c===','&&!inQ){cells.push(cur.trim());cur='';}else{cur+=c;}}
+        cells.push(cur.trim());return cells;
+      });
+      const headers=rows[0];
+      const data=rows.slice(1).filter(r=>r.length>1&&r[0]);
+      if(!data.length){el.innerHTML='<div class="no-data">Aucune donnée dans le Sheet.</div>';return;}
+      let html=`<div style="overflow-x:auto"><table class="tt"><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>`;
+      data.forEach(row=>{
+        html+=`<tr>${row.map((cell,i)=>{
+          const h=(headers[i]||'').toLowerCase();
+          if(h.includes('note')) return `<td>${stars(cell)}</td>`;
+          return `<td>${cell}</td>`;
+        }).join('')}</tr>`;
+      });
+      html+='</tbody></table></div>';
+      el.innerHTML=html;
+      // update prog bars
+      const s=DATA.seances.find(x=>x.id==='s4');
+      if(s){
+        const counts={};
+        s.livres.forEach(l=>counts[l.titre]=0);
+        data.forEach(row=>{
+          const livre=row[2]||'';
+          Object.keys(counts).forEach(k=>{if(livre.toLowerCase().includes(k.toLowerCase().substring(0,6)))counts[k]++;});
+        });
+        document.getElementById('prog-bars').innerHTML=s.livres.map(l=>{
+          const c=counts[l.titre]||0;
+          const pct=Math.round(c/DATA.membres.length*100);
+          return `<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span>${l.titre}</span><span style="color:var(--ink3)">${c}/${DATA.membres.length}</span></div><div class="prog"><div class="prog-f" style="width:${pct}%"></div></div></div>`;
+        }).join('');
+      }
+    })
+    .catch(()=>{el.innerHTML='<div class="no-data">Impossible de charger le Sheet. Vérifiez que l\'URL est publiée en CSV et accessible publiquement.</div>';});
+}
+
+function analyzeT(){
+  const text=document.getElementById('ta').value.trim();
+  if(!text){alert('Collez d\'abord un transcript.');return;}
+  const prompt=encodeURIComponent('Voici le transcript d\'une séance de notre club de lecture. Extrais : 1) les thèmes principaux abordés, 2) les désaccords notables entre participants, 3) les formulations ou citations marquantes, 4) un résumé en 8 à 10 lignes.\n\n'+text.substring(0,4000));
+  window.open('https://claude.ai/new?q='+prompt,'_blank');
+}
+
+renderAccueil();
+renderSeances();
+renderLivres();
+renderTracker();
+renderArchives();
+</script>
+</body>
+</html>
