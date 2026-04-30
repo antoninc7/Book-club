@@ -5,426 +5,1645 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Club de lecture</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inconsolata:wght@400;500&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --serif:'Libre Baskerville',serif;
-  --sans:'DM Sans',sans-serif;
-  --ink:#1a1a18;
-  --ink2:#555550;
-  --ink3:#999890;
-  --bg:#faf9f6;
-  --bg2:#f2f0eb;
-  --bg3:#eae8e2;
-  --border:#e0ddd5;
-  --border2:#c8c5bc;
-  --accent:#7a5230;
-  --accent-light:#f5ede4;
-  --accent-mid:#c49a72;
+:root {
+  --bg: #f5f0e8;
+  --bg2: #ede8dc;
+  --ink: #1a1612;
+  --ink2: #3d3628;
+  --ink3: #6b6050;
+  --accent: #8b1a1a;
+  --accent2: #c4973a;
+  --border: #c8bfaa;
+  --card: #faf7f2;
+  --shadow: rgba(26,22,18,0.12);
 }
-body{font-family:var(--sans);color:var(--ink);background:var(--bg);font-size:14px;line-height:1.6;min-height:100vh}
-.container{max-width:780px;margin:0 auto;padding:2.5rem 1.5rem}
-.site-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:2rem;padding-bottom:1.25rem;border-bottom:0.5px solid var(--border)}
-.site-title{font-family:var(--serif);font-size:20px;font-weight:400;letter-spacing:.01em;color:var(--ink)}
-.site-meta{font-size:12px;color:var(--ink3)}
-nav{display:flex;gap:3px;margin-bottom:1.75rem;flex-wrap:wrap}
-nav button{font-family:var(--sans);font-size:12px;padding:5px 13px;border-radius:3px;border:0.5px solid transparent;background:transparent;color:var(--ink2);cursor:pointer;transition:all .15s;letter-spacing:.02em}
-nav button.active{border-color:var(--border2);background:var(--bg2);color:var(--ink)}
-nav button:hover:not(.active){color:var(--ink);background:var(--bg2)}
-.page{display:none}.page.active{display:block}
-.card{background:#fff;border:0.5px solid var(--border);border-radius:4px;padding:1rem 1.25rem;margin-bottom:.875rem}
-.card-alt{background:var(--bg2);border:0.5px solid var(--border);border-radius:4px;padding:1rem 1.25rem;margin-bottom:.875rem}
-.label{font-size:10px;font-weight:500;color:var(--ink3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.625rem;display:block}
-.pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:2px}
-.pill-brown{background:var(--accent-light);color:var(--accent)}
-.pill-gray{background:var(--bg2);color:var(--ink2)}
-.pill-green{background:#eaf3de;color:#27500a}
-.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-bottom:1.25rem}
-.m-card{background:var(--bg2);border-radius:3px;padding:.75rem 1rem}
-.m-val{font-family:var(--serif);font-size:22px;font-weight:400;margin-top:2px;color:var(--ink)}
-.m-lbl{font-size:11px;color:var(--ink3)}
-hr.thin{border:none;border-top:0.5px solid var(--border);margin:.875rem 0}
-.seance-theme{font-family:var(--serif);font-size:16px;font-weight:400;font-style:italic;color:var(--ink)}
-.book-row{display:flex;gap:1rem;align-items:flex-start;padding:.75rem 0;border-bottom:0.5px solid var(--border)}
-.book-row:last-child{border-bottom:none}
-.cover{width:44px;height:64px;border-radius:2px;object-fit:cover;flex-shrink:0;border:0.5px solid var(--border)}
-.cover-ph{width:44px;height:64px;border-radius:2px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;border:0.5px solid var(--border)}
-.book-title{font-family:var(--serif);font-size:14px;font-weight:400;line-height:1.3;margin-bottom:2px;color:var(--ink)}
-.book-author{font-size:12px;color:var(--ink2);margin-bottom:4px}
-.res-item{display:flex;gap:8px;align-items:flex-start;padding:7px 0;border-bottom:0.5px solid var(--border)}
-.res-item:last-child{border-bottom:none}
-.res-badge{font-size:10px;padding:2px 6px;border-radius:2px;font-weight:500;flex-shrink:0;margin-top:2px;white-space:nowrap}
-.badge-film{background:#e6f1fb;color:#0c447c}
-.badge-texte{background:#eaf3de;color:#27500a}
-.badge-théorie{background:#eeedfe;color:#3c3489}
-.badge-audio{background:#faece7;color:#712b13}
-.badge-image{background:#f1efe8;color:#444441}
-.q-row{padding:8px 0;border-bottom:0.5px solid var(--border);font-size:13px;line-height:1.55;color:var(--ink)}
-.q-row:last-child{border-bottom:none}
-.tt{width:100%;border-collapse:collapse;font-size:12px}
-.tt th{text-align:left;font-size:10px;font-weight:500;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em;padding:5px 8px;border-bottom:0.5px solid var(--border);background:#fff}
-.tt td{padding:8px 8px;border-bottom:0.5px solid var(--border);vertical-align:middle}
-.tt tr:last-child td{border-bottom:none}
-.dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:5px}
-.dg{background:#1d9e75}.da{background:#ba7517}.dx{background:#888780}
-.stars{color:#ba7517;letter-spacing:-1px;font-size:12px}
-.prog{height:3px;background:var(--bg3);border-radius:2px;margin-top:4px}
-.prog-f{height:3px;border-radius:2px;background:var(--accent)}
-textarea{width:100%;min-height:100px;font-size:13px;font-family:var(--sans);border:0.5px solid var(--border);border-radius:3px;padding:9px;background:var(--bg2);color:var(--ink);resize:vertical;outline:none}
-textarea:focus{border-color:var(--border2)}
-input[type=text]{font-size:12px;padding:7px 10px;border:0.5px solid var(--border);border-radius:3px;background:var(--bg2);color:var(--ink);font-family:var(--sans);outline:none;width:100%}
-input[type=text]:focus{border-color:var(--border2)}
-.btn-p{background:var(--ink);color:var(--bg);border:none;padding:7px 16px;border-radius:3px;font-size:12px;cursor:pointer;font-family:var(--sans);transition:opacity .15s}
-.btn-p:hover{opacity:.85}
-.btn-s{background:transparent;color:var(--ink);border:0.5px solid var(--border2);padding:6px 12px;border-radius:3px;font-size:12px;cursor:pointer;font-family:var(--sans);transition:background .15s}
-.btn-s:hover{background:var(--bg2)}
-.sheet-info{background:var(--accent-light);border:0.5px solid var(--border);border-radius:3px;padding:.75rem 1rem;margin-bottom:1rem;font-size:12px;color:var(--accent);line-height:1.6}
-.no-data{font-size:13px;color:var(--ink3);font-style:italic;padding:.5rem 0}
-.past-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid var(--border)}
-.past-row:last-child{border-bottom:none}
-.seance-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem}
-.step{background:var(--bg2);border-radius:3px;padding:.625rem .875rem;margin-bottom:6px;font-size:13px;line-height:1.5;color:var(--ink)}
-.step strong{font-weight:500;color:var(--accent)}
-@media(max-width:600px){
-  .container{padding:1.5rem 1rem}
-  .site-header{flex-direction:column;gap:.25rem}
-  .metrics{grid-template-columns:repeat(2,1fr)}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'EB Garamond', Georgia, serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.65;
 }
+
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--ink);
+  border-bottom: 2px solid var(--accent);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2.5rem;
+  height: 56px;
+}
+.nav-logo {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1rem;
+  color: var(--bg);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.nav-logo span { color: var(--accent2); }
+.nav-links { display: flex; gap: 0; }
+.nav-links button {
+  background: none; border: none;
+  color: #b0a898;
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0 1.1rem;
+  height: 56px;
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s;
+  border-bottom: 2px solid transparent;
+}
+.nav-links button:hover { color: var(--bg); }
+.nav-links button.active { color: var(--accent2); border-bottom-color: var(--accent2); }
+
+/* PAGES */
+.page { display: none; min-height: calc(100vh - 56px); }
+.page.active { display: block; }
+
+/* ===== PAGE: ACCUEIL ===== */
+.hero {
+  background: var(--ink);
+  color: var(--bg);
+  padding: 5rem 2.5rem 4rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(200,191,170,0.06) 39px, rgba(200,191,170,0.06) 40px);
+}
+.hero-eyebrow {
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent2);
+  margin-bottom: 1.2rem;
+}
+.hero h1 {
+  font-family: 'Libre Baskerville', serif;
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 1.2rem;
+  position: relative;
+}
+.hero h1 em { color: var(--accent2); font-style: italic; }
+.hero-sub {
+  font-size: 1.05rem;
+  color: #9e9385;
+  max-width: 520px;
+  margin: 0 auto 2.5rem;
+  font-style: italic;
+}
+.hero-stats {
+  display: flex; justify-content: center; gap: 3rem;
+  position: relative;
+}
+.hero-stat { text-align: center; }
+.hero-stat .n {
+  display: block;
+  font-family: 'Libre Baskerville', serif;
+  font-size: 2.2rem;
+  color: var(--accent2);
+  font-weight: 700;
+}
+.hero-stat .l {
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #7a7060;
+}
+
+/* SECTION */
+.section { padding: 3.5rem 2.5rem; max-width: 1100px; margin: 0 auto; }
+.section-title {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 0.3rem;
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+  margin-left: 0.5rem;
+}
+.section-sub {
+  font-style: italic;
+  color: var(--ink3);
+  font-size: 0.92rem;
+  margin-bottom: 2rem;
+}
+
+/* FRISE CHRONOLOGIQUE */
+.timeline {
+  position: relative;
+  padding: 1.5rem 0 1rem;
+}
+.timeline-line {
+  position: absolute;
+  top: 48px; left: 0; right: 0;
+  height: 2px;
+  background: var(--border);
+}
+.timeline-track {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+}
+.timeline-item {
+  flex: 1; min-width: 160px;
+  display: flex; flex-direction: column; align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+.timeline-dot {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 3px solid var(--border);
+  margin-bottom: 0.8rem;
+  transition: all 0.25s;
+  position: relative; z-index: 1;
+}
+.timeline-item:hover .timeline-dot,
+.timeline-item.active .timeline-dot {
+  border-color: var(--accent);
+  background: var(--accent);
+  transform: scale(1.25);
+}
+.timeline-label {
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink3);
+  text-align: center;
+  margin-bottom: 0.3rem;
+}
+.timeline-theme {
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--ink2);
+  text-align: center;
+  max-width: 130px;
+}
+.timeline-item.active .timeline-label { color: var(--accent); }
+.timeline-item.active .timeline-theme { color: var(--ink); font-weight: 500; }
+
+.timeline-detail {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1.5rem 2rem;
+  margin-top: 2rem;
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+.timeline-detail.active { display: block; }
+.timeline-detail h3 {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1.1rem;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+.tl-books { display: flex; flex-wrap: wrap; gap: 1rem; }
+.tl-book {
+  display: flex; align-items: center; gap: 0.8rem;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.tl-book:hover { background: var(--border); }
+.tl-book .tl-avg {
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.8rem;
+  color: var(--accent2);
+  background: var(--ink);
+  padding: 0.1rem 0.4rem;
+  border-radius: 2px;
+}
+
+/* REFS SECTION on home */
+.refs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+.ref-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 1.2rem 1.4rem;
+  border-radius: 2px;
+  display: flex; gap: 1rem; align-items: flex-start;
+}
+.ref-tag {
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: var(--ink);
+  color: var(--accent2);
+  padding: 0.15rem 0.5rem;
+  border-radius: 2px;
+  white-space: nowrap;
+  margin-top: 0.1rem;
+}
+.ref-body {}
+.ref-title { font-style: italic; font-size: 0.95rem; color: var(--ink); margin-bottom: 0.2rem; }
+.ref-desc { font-size: 0.83rem; color: var(--ink3); }
+
+/* ===== PAGE: SÉANCES ===== */
+.seances-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
+.seance-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.seance-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px var(--shadow); }
+.seance-card-header {
+  background: var(--ink);
+  color: var(--bg);
+  padding: 1.2rem 1.4rem;
+  display: flex; justify-content: space-between; align-items: flex-start;
+}
+.seance-num {
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--accent2);
+  margin-bottom: 0.3rem;
+}
+.seance-theme {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1.1rem;
+  font-style: italic;
+}
+.seance-avg-badge {
+  background: var(--accent2);
+  color: var(--ink);
+  font-family: 'Inconsolata', monospace;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+.seance-card-body { padding: 1.2rem 1.4rem; }
+.seance-book-list { list-style: none; }
+.seance-book-list li {
+  font-size: 0.88rem;
+  color: var(--ink2);
+  padding: 0.3rem 0;
+  border-bottom: 1px solid var(--bg2);
+  display: flex; justify-content: space-between;
+}
+.seance-book-list li:last-child { border-bottom: none; }
+.seance-book-list .book-avg {
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.8rem;
+  color: var(--accent);
+}
+
+/* ===== PAGE: LIVRES ===== */
+.books-filters {
+  display: flex; gap: 0.6rem; flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+.filter-btn {
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--ink3);
+  padding: 0.35rem 0.9rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.filter-btn:hover, .filter-btn.active {
+  background: var(--ink);
+  color: var(--accent2);
+  border-color: var(--ink);
+}
+.books-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.2rem; }
+.book-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex; flex-direction: column;
+}
+.book-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px var(--shadow); }
+.book-cover {
+  height: 160px;
+  background: var(--bg2);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.book-cover img { width: 100%; height: 100%; object-fit: cover; }
+.book-cover-placeholder {
+  font-family: 'Libre Baskerville', serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--ink3);
+  text-align: center;
+  padding: 1rem;
+}
+.book-genre-tag {
+  position: absolute; bottom: 0.4rem; left: 0.4rem;
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: rgba(26,22,18,0.85);
+  color: var(--accent2);
+  padding: 0.15rem 0.5rem;
+  border-radius: 2px;
+}
+.book-card-body { padding: 0.9rem 1rem; flex: 1; display: flex; flex-direction: column; }
+.book-title { font-style: italic; font-size: 0.92rem; color: var(--ink); line-height: 1.35; margin-bottom: 0.3rem; }
+.book-author-link {
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.75rem;
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  background: none; border: none; padding: 0;
+  text-align: left;
+}
+.book-author-link:hover { color: var(--accent2); }
+.book-meta { margin-top: auto; padding-top: 0.6rem; display: flex; justify-content: space-between; align-items: center; }
+.book-pages { font-family: 'Inconsolata', monospace; font-size: 0.72rem; color: var(--ink3); }
+.book-rating-stars { color: var(--accent2); font-size: 0.8rem; }
+
+/* BOOK MODAL */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(26,22,18,0.75);
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 2rem 1rem;
+  overflow-y: auto;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.25s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  max-width: 760px;
+  width: 100%;
+  position: relative;
+  transform: translateY(20px);
+  transition: transform 0.25s;
+}
+.modal-overlay.open .modal { transform: translateY(0); }
+.modal-header {
+  background: var(--ink);
+  color: var(--bg);
+  padding: 2rem 2.5rem 1.5rem;
+  display: flex; gap: 1.5rem;
+}
+.modal-cover {
+  width: 90px; min-width: 90px; height: 130px;
+  background: var(--ink2);
+  border-radius: 2px;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.modal-cover img { width: 100%; height: 100%; object-fit: cover; }
+.modal-cover-ph {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 0.7rem;
+  color: var(--ink3);
+  text-align: center;
+  padding: 0.5rem;
+  font-style: italic;
+}
+.modal-header-info { flex: 1; }
+.modal-genre-tag {
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent2);
+  margin-bottom: 0.5rem;
+}
+.modal-title {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1.5rem;
+  font-style: italic;
+  line-height: 1.25;
+  margin-bottom: 0.4rem;
+}
+.modal-author {
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.82rem;
+  color: #8a7f70;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  background: none; border: none; padding: 0;
+  color: #c4a96a;
+}
+.modal-author:hover { color: var(--accent2); }
+.modal-specs {
+  display: flex; gap: 1.5rem; margin-top: 0.9rem; flex-wrap: wrap;
+}
+.modal-spec {
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.72rem;
+}
+.modal-spec .spec-label { color: #7a7060; display: block; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.62rem; }
+.modal-spec .spec-val { color: var(--bg); }
+.modal-close {
+  position: absolute; top: 1rem; right: 1rem;
+  background: none; border: none;
+  color: #7a7060;
+  font-size: 1.4rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.3rem;
+}
+.modal-close:hover { color: var(--bg); }
+.modal-body { padding: 2rem 2.5rem; }
+.modal-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; }
+.modal-tab {
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.6rem 1.2rem;
+  background: none; border: none;
+  color: var(--ink3);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+.modal-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.modal-tab-content { display: none; }
+.modal-tab-content.active { display: block; }
+.modal-section-title {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin-bottom: 0.8rem;
+  margin-top: 1.5rem;
+}
+.modal-section-title:first-child { margin-top: 0; }
+.modal-body p { margin-bottom: 1rem; font-size: 0.95rem; line-height: 1.75; color: var(--ink2); }
+.modal-body p:last-child { margin-bottom: 0; }
+.modal-quote {
+  border-left: 3px solid var(--accent2);
+  padding: 0.8rem 1.2rem;
+  margin: 1.2rem 0;
+  background: var(--bg2);
+  font-style: italic;
+  color: var(--ink2);
+  font-size: 0.95rem;
+}
+.modal-refs-list { list-style: none; }
+.modal-refs-list li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--bg2);
+  font-size: 0.88rem;
+  color: var(--ink2);
+  display: flex; gap: 0.8rem; align-items: baseline;
+}
+.modal-refs-list li:last-child { border-bottom: none; }
+.modal-refs-list .ref-type {
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  color: var(--ink3);
+  padding: 0.1rem 0.4rem;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+.rating-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.4rem; }
+.member-name { font-family: 'Inconsolata', monospace; font-size: 0.8rem; width: 80px; color: var(--ink3); }
+.rating-bar-bg { flex: 1; height: 6px; background: var(--bg2); border-radius: 3px; overflow: hidden; }
+.rating-bar { height: 100%; background: var(--accent2); border-radius: 3px; transition: width 0.5s; }
+.rating-num { font-family: 'Inconsolata', monospace; font-size: 0.78rem; color: var(--ink2); width: 24px; text-align: right; }
+
+/* AUTHOR MODAL */
+.author-modal-overlay {
+  position: fixed; inset: 0; z-index: 600;
+  background: rgba(26,22,18,0.8);
+  display: flex; align-items: center; justify-content: center;
+  padding: 2rem;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.2s;
+}
+.author-modal-overlay.open { opacity: 1; pointer-events: all; }
+.author-modal {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  max-width: 560px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  transform: scale(0.97);
+  transition: transform 0.2s;
+}
+.author-modal-overlay.open .author-modal { transform: scale(1); }
+.author-modal-header {
+  background: var(--ink2);
+  color: var(--bg);
+  padding: 1.5rem 2rem;
+}
+.author-modal-name {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1.4rem;
+  margin-bottom: 0.3rem;
+}
+.author-modal-dates {
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.78rem;
+  color: var(--accent2);
+}
+.author-modal-body { padding: 1.5rem 2rem; }
+.author-modal-body p { font-size: 0.93rem; line-height: 1.7; color: var(--ink2); margin-bottom: 0.8rem; }
+.author-bib-title {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin: 1.2rem 0 0.6rem;
+}
+.author-bib-list { list-style: none; }
+.author-bib-list li {
+  font-size: 0.88rem;
+  color: var(--ink2);
+  padding: 0.3rem 0;
+  border-bottom: 1px solid var(--bg2);
+  font-style: italic;
+}
+.author-bib-list li:last-child { border-bottom: none; }
+.author-modal-close {
+  position: absolute; top: 0.8rem; right: 1rem;
+  background: none; border: none;
+  color: #7a7060; font-size: 1.3rem;
+  cursor: pointer; line-height: 1;
+}
+.author-modal-close:hover { color: var(--bg); }
+
+/* ===== PAGE: STATS ===== */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1.5rem 1.8rem;
+}
+.stat-card-title {
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink3);
+  margin-bottom: 1.2rem;
+}
+.bar-chart-row { margin-bottom: 0.8rem; }
+.bar-chart-label { font-size: 0.83rem; color: var(--ink2); margin-bottom: 0.25rem; font-style: italic; }
+.bar-chart-bar-bg { height: 8px; background: var(--bg2); border-radius: 4px; overflow: hidden; }
+.bar-chart-bar { height: 100%; border-radius: 4px; background: var(--accent); transition: width 0.6s ease; }
+.bar-chart-bar.gold { background: var(--accent2); }
+.bar-chart-val { font-family: 'Inconsolata', monospace; font-size: 0.72rem; color: var(--ink3); margin-top: 0.15rem; }
+
+.big-number { font-family: 'Libre Baskerville', serif; font-size: 3rem; color: var(--accent); font-weight: 700; }
+.big-label { font-size: 0.85rem; color: var(--ink3); font-style: italic; }
+
+.pie-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.5rem; }
+.pie-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.83rem; color: var(--ink2); }
+.pie-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+.scatter-plot { position: relative; width: 100%; height: 180px; margin-top: 0.5rem; }
+.scatter-axis-x {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 1px; background: var(--border);
+}
+.scatter-axis-y {
+  position: absolute; top: 0; bottom: 0; left: 0;
+  width: 1px; background: var(--border);
+}
+.scatter-dot {
+  position: absolute;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translate(-50%, 50%);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.scatter-dot:hover { transform: translate(-50%, 50%) scale(1.5); }
+.scatter-dot[data-genre="Histoire"] { background: #8b1a1a; }
+.scatter-dot[data-genre="Biographie"] { background: #c4973a; }
+.scatter-dot[data-genre="Géopolitique"] { background: #2a5f8f; }
+.scatter-dot[data-genre="Économie"] { background: #2a7f4f; }
+.scatter-dot[data-genre="Sciences"] { background: #6b3a8f; }
+.scatter-dot[data-genre="Récit"] { background: #8f5a2a; }
+
+/* ===== PAGE: NOTES ===== */
+.notes-table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+thead { background: var(--ink); color: var(--bg); }
+thead th {
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.7rem 1rem;
+  text-align: left;
+  font-weight: 500;
+}
+tbody tr { border-bottom: 1px solid var(--bg2); transition: background 0.15s; }
+tbody tr:hover { background: var(--bg2); }
+tbody td { padding: 0.6rem 1rem; color: var(--ink2); }
+.note-badge {
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.82rem;
+  font-weight: 700;
+  display: inline-block;
+  min-width: 28px;
+  text-align: center;
+  padding: 0.1rem 0.4rem;
+  border-radius: 2px;
+}
+.note-high { background: #d4edda; color: #1a5c2a; }
+.note-mid { background: #fff3cd; color: #7a5c00; }
+.note-low { background: #f8d7da; color: #7a1a22; }
+
+/* ===== PAGE: TRANSCRIPTS ===== */
+.transcript-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 2rem;
+}
+.transcript-box label {
+  display: block;
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink3);
+  margin-bottom: 0.6rem;
+}
+textarea {
+  width: 100%;
+  min-height: 260px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 1rem;
+  font-family: 'EB Garamond', serif;
+  font-size: 0.95rem;
+  color: var(--ink);
+  resize: vertical;
+  line-height: 1.6;
+}
+textarea:focus { outline: none; border-color: var(--accent2); }
+.btn-primary {
+  display: inline-block;
+  background: var(--ink);
+  color: var(--accent2);
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  margin-top: 1rem;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.btn-primary:hover { background: var(--accent); }
+
+/* UTILS */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.divider { height: 1px; background: var(--border); margin: 2.5rem 0; }
 </style>
 </head>
 <body>
-<div class="container">
-
-<div class="site-header">
-  <span class="site-title">Club de lecture</span>
-  <span class="site-meta" id="next-header"></span>
-</div>
 
 <nav>
-  <button class="active" onclick="show('accueil',this)">Accueil</button>
-  <button onclick="show('seances',this)">Séances</button>
-  <button onclick="show('livres',this)">Livres & ressources</button>
-  <button onclick="show('tracker',this)">Notes & avis</button>
-  <button onclick="show('transcripts',this)">Transcripts</button>
+  <div class="nav-logo">Club de <span>Lecture</span></div>
+  <div class="nav-links">
+    <button onclick="showPage('accueil')" class="active" id="nav-accueil">Accueil</button>
+    <button onclick="showPage('seances')" id="nav-seances">Séances</button>
+    <button onclick="showPage('livres')" id="nav-livres">Livres</button>
+    <button onclick="showPage('stats')" id="nav-stats">Statistiques</button>
+    <button onclick="showPage('notes')" id="nav-notes">Notes</button>
+    <button onclick="showPage('transcripts')" id="nav-transcripts">Transcripts</button>
+  </div>
 </nav>
 
-<div id="accueil" class="page active">
-  <div class="metrics" id="metrics"></div>
-  <div class="card" id="next-card"></div>
-  <div class="card">
-    <span class="label">Séances passées</span>
-    <div id="past-list"></div>
-  </div>
-</div>
-
-<div id="seances" class="page">
-  <div id="all-seances"></div>
-</div>
-
-<div id="livres" class="page">
-  <div id="livres-content"></div>
-  <div class="card-alt">
-    <span class="label">Références théoriques — toutes séances</span>
-    <div class="res-item"><span class="res-badge badge-théorie">Théorie</span><div><div style="font-size:13px;font-weight:500">Sur la révolution — Hannah Arendt (1963)</div><div style="font-size:12px;color:var(--ink2)">La distinction fondatrice entre révolution et révolte. Accessible, incontournable.</div></div></div>
-    <div class="res-item"><span class="res-badge badge-théorie">Théorie</span><div><div style="font-size:13px;font-weight:500">States and Social Revolutions — Theda Skocpol (1979)</div><div style="font-size:12px;color:var(--ink2)">Approche structurale comparée. Pourquoi certaines révolutions aboutissent et d'autres non.</div></div></div>
-    <div class="res-item"><span class="res-badge badge-théorie">Théorie</span><div><div style="font-size:13px;font-weight:500">L'Ancien Régime et la Révolution — Tocqueville (1856)</div><div style="font-size:12px;color:var(--ink2)">Pourquoi les révolutions éclatent quand les conditions s'améliorent. Paradoxe fondateur.</div></div></div>
-    <div class="res-item"><span class="res-badge badge-théorie">Théorie</span><div><div style="font-size:13px;font-weight:500">La Révolution trahie — Trotski (1936)</div><div style="font-size:12px;color:var(--ink2)">La confiscation révolutionnaire analysée de l'intérieur. Court et percutant.</div></div></div>
-    <div class="res-item"><span class="res-badge badge-théorie">Théorie</span><div><div style="font-size:13px;font-weight:500">L'Hypothèse communiste — Alain Badiou (2009)</div><div style="font-size:12px;color:var(--ink2)">La révolution comme événement politique pur. Contemporain et exigeant.</div></div></div>
-  </div>
-</div>
-
-<div id="tracker" class="page">
-  <div class="sheet-info">
-    Les notes et commentaires sont renseignés par les membres directement dans un Google Sheet partagé. Entrez l'URL du Sheet publié en CSV pour afficher les données ici.
-  </div>
-  <div class="card">
-    <span class="label">URL du Google Sheet publié (CSV)</span>
-    <div style="display:flex;gap:8px;margin-top:.25rem;flex-wrap:wrap">
-      <input type="text" id="sheet-url" placeholder="https://docs.google.com/spreadsheets/d/.../export?format=csv" style="flex:1;min-width:200px">
-      <button class="btn-p" onclick="loadSheet()">Charger</button>
+<!-- BOOK MODAL -->
+<div class="modal-overlay" id="bookModal" onclick="closeBookModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeBookModalDirect()">✕</button>
+    <div class="modal-header">
+      <div class="modal-cover" id="modalCover">
+        <div class="modal-cover-ph" id="modalCoverPh"></div>
+      </div>
+      <div class="modal-header-info">
+        <div class="modal-genre-tag" id="modalGenre"></div>
+        <div class="modal-title" id="modalTitle"></div>
+        <button class="modal-author" id="modalAuthor" onclick="openAuthorModal()"></button>
+        <div class="modal-specs" id="modalSpecs"></div>
+      </div>
     </div>
-    <div style="font-size:11px;color:var(--ink3);margin-top:8px;line-height:1.6">
-      Dans Google Sheets : Fichier → Partager → Publier sur le web → Feuille "Lectures" → Format CSV → Copier le lien
-    </div>
-  </div>
-  <div class="card">
-    <span class="label">Progression — séance en cours</span>
-    <div id="prog-bars"></div>
-  </div>
-  <div class="card">
-    <span class="label">Notes des membres</span>
-    <div id="tracker-table">
-      <div class="no-data">En attente du Google Sheet...</div>
-    </div>
-  </div>
-  <div class="card-alt" style="margin-top:.5rem">
-    <span class="label">Structure du Google Sheet</span>
-    <div style="font-size:12px;color:var(--ink2);line-height:1.7">Créez une feuille nommée <strong style="font-weight:500">Lectures</strong> avec ces 5 colonnes en ligne 1 :</div>
-    <div style="margin-top:.5rem;display:flex;gap:6px;flex-wrap:wrap">
-      <span class="pill pill-brown">Membre</span>
-      <span class="pill pill-brown">Séance</span>
-      <span class="pill pill-brown">Livre</span>
-      <span class="pill pill-brown">Note (1–5)</span>
-      <span class="pill pill-brown">Commentaire</span>
+    <div class="modal-body">
+      <div class="modal-tabs">
+        <button class="modal-tab active" onclick="switchTab('resume')">Résumé</button>
+        <button class="modal-tab" onclick="switchTab('theme')">Lien thématique</button>
+        <button class="modal-tab" onclick="switchTab('refs')">Références</button>
+        <button class="modal-tab" onclick="switchTab('notes')">Notes</button>
+      </div>
+      <div class="modal-tab-content active" id="tab-resume"></div>
+      <div class="modal-tab-content" id="tab-theme"></div>
+      <div class="modal-tab-content" id="tab-refs"></div>
+      <div class="modal-tab-content" id="tab-notes"></div>
     </div>
   </div>
 </div>
 
-<div id="transcripts" class="page">
-  <div class="card">
-    <span class="label">Analyser un transcript</span>
-    <div style="font-size:13px;color:var(--ink2);margin-bottom:.75rem;line-height:1.6">Enregistrez la séance, retranscrivez-la (ou utilisez un outil de transcription automatique), puis collez le texte ici pour en extraire les points essentiels.</div>
-    <div style="font-size:12px;color:var(--ink2);margin-bottom:.75rem;line-height:1.6;font-style:italic">Outils de transcription recommandés : Whisper (gratuit, open source), Otter.ai, ou simplement la transcription automatique de Google Meet.</div>
-    <textarea id="ta" placeholder="Collez le transcript ici..."></textarea>
-    <div style="display:flex;gap:8px;margin-top:.75rem;flex-wrap:wrap">
-      <button class="btn-p" onclick="analyzeT()">Analyser avec Claude ↗</button>
+<!-- AUTHOR MODAL -->
+<div class="author-modal-overlay" id="authorModal" onclick="closeAuthorModal(event)">
+  <div class="author-modal">
+    <button class="author-modal-close" onclick="closeAuthorModalDirect()">✕</button>
+    <div class="author-modal-header">
+      <div class="author-modal-name" id="authorName"></div>
+      <div class="author-modal-dates" id="authorDates"></div>
     </div>
-    <div style="font-size:11px;color:var(--ink3);margin-top:8px">Le bouton ouvre Claude et lui transmet le transcript pour analyse.</div>
-  </div>
-  <div class="card">
-    <span class="label">Archives</span>
-    <div id="archives"></div>
+    <div class="author-modal-body">
+      <div id="authorBio"></div>
+      <div class="author-bib-title">Bibliographie sélective</div>
+      <ul class="author-bib-list" id="authorBib"></ul>
+    </div>
   </div>
 </div>
 
+<!-- PAGE: ACCUEIL -->
+<div class="page active" id="page-accueil">
+  <div class="hero">
+    <div class="hero-eyebrow">Club de lecture · Paris</div>
+    <h1>Lire le monde,<br><em>ensemble</em></h1>
+    <p class="hero-sub">Un cercle de lecture consacré aux grandes transformations politiques, historiques et humaines.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="n">5</span><span class="l">Séances</span></div>
+      <div class="hero-stat"><span class="n">14</span><span class="l">Livres</span></div>
+      <div class="hero-stat"><span class="n">11</span><span class="l">Membres</span></div>
+      <div class="hero-stat"><span class="n" id="heroAvg">—</span><span class="l">Note moy.</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Frise des séances</div>
+    <p class="section-sub">Cliquez sur une séance pour en voir le détail.</p>
+    <div class="timeline">
+      <div class="timeline-line"></div>
+      <div class="timeline-track" id="timelineTrack"></div>
+    </div>
+    <div id="timelineDetail"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Références théoriques</div>
+    <p class="section-sub">Lectures transversales recommandées pour toutes les séances.</p>
+    <div class="refs-grid">
+      <div class="ref-card"><span class="ref-tag">Théorie</span><div class="ref-body"><div class="ref-title">Sur la révolution — Hannah Arendt (1963)</div><div class="ref-desc">La distinction fondatrice entre révolution et révolte. Accessible, incontournable.</div></div></div>
+      <div class="ref-card"><span class="ref-tag">Sociologie</span><div class="ref-body"><div class="ref-title">States and Social Revolutions — Theda Skocpol (1979)</div><div class="ref-desc">Approche structurale comparée. Pourquoi certaines révolutions aboutissent et d'autres non.</div></div></div>
+      <div class="ref-card"><span class="ref-tag">Histoire</span><div class="ref-body"><div class="ref-title">L'Ancien Régime et la Révolution — Tocqueville (1856)</div><div class="ref-desc">Pourquoi les révolutions éclatent quand les conditions s'améliorent. Paradoxe fondateur.</div></div></div>
+      <div class="ref-card"><span class="ref-tag">Politique</span><div class="ref-body"><div class="ref-title">La Révolution trahie — Trotski (1936)</div><div class="ref-desc">La confiscation révolutionnaire analysée de l'intérieur. Court et percutant.</div></div></div>
+      <div class="ref-card"><span class="ref-tag">Philosophie</span><div class="ref-body"><div class="ref-title">L'Hypothèse communiste — Alain Badiou (2009)</div><div class="ref-desc">La révolution comme événement politique pur. Contemporain et exigeant.</div></div></div>
+      <div class="ref-card"><span class="ref-tag">Anthropologie</span><div class="ref-body"><div class="ref-title">The Art of Not Being Governed — James C. Scott (2009)</div><div class="ref-desc">Comment les sociétés échappent à l'État. Complément essentiel à Homo domesticus.</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: SÉANCES -->
+<div class="page" id="page-seances">
+  <div class="section">
+    <div class="section-title">Séances passées</div>
+    <p class="section-sub">Aperçu de chaque séance, avec les livres lus et les notes moyennes.</p>
+    <div class="seances-grid" id="seancesGrid"></div>
+  </div>
+</div>
+
+<!-- PAGE: LIVRES -->
+<div class="page" id="page-livres">
+  <div class="section">
+    <div class="section-title">Bibliothèque du club</div>
+    <p class="section-sub">Tous les ouvrages lus. Cliquez sur un livre pour accéder à sa fiche complète.</p>
+    <div class="books-filters" id="booksFilters"></div>
+    <div class="books-grid" id="booksGrid"></div>
+  </div>
+</div>
+
+<!-- PAGE: STATS -->
+<div class="page" id="page-stats">
+  <div class="section">
+    <div class="section-title">Statistiques</div>
+    <p class="section-sub">Visualisations à partir des notes et données du club.</p>
+    <div class="stats-grid" id="statsGrid"></div>
+  </div>
+</div>
+
+<!-- PAGE: NOTES -->
+<div class="page" id="page-notes">
+  <div class="section">
+    <div class="section-title">Notes & commentaires</div>
+    <p class="section-sub">Toutes les notes attribuées par les membres, séance par séance.</p>
+    <div class="notes-table-wrap">
+      <table>
+        <thead><tr><th>Membre</th><th>Séance</th><th>Livre</th><th>Auteur</th><th>Note</th></tr></thead>
+        <tbody id="notesTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: TRANSCRIPTS -->
+<div class="page" id="page-transcripts">
+  <div class="section">
+    <div class="section-title">Analyser un transcript</div>
+    <p class="section-sub">Collez le texte d'une séance retranscrite pour en extraire les points essentiels avec Claude.</p>
+    <div class="transcript-box">
+      <label>Transcript de la séance</label>
+      <textarea id="transcriptText" placeholder="Collez ici le texte retranscrit de la séance..."></textarea>
+      <a class="btn-primary" id="transcriptBtn" href="#" target="_blank">Analyser avec Claude ↗</a>
+    </div>
+    <div class="divider"></div>
+    <p style="font-size:0.85rem;color:var(--ink3);font-style:italic;">Outils de transcription recommandés : Whisper (gratuit, open source), Otter.ai, ou la transcription automatique de Google Meet.</p>
+  </div>
 </div>
 
 <script>
-const DATA = {
-  membres: ['Sophie M.','Thomas D.','Claire R.','Marc B.','Julie F.','Antoine L.','Isabelle P.','Pierre V.'],
-  seances: [
-    {
-      id:'s4',
-      theme:'Le moment révolutionnaire',
-      date:'Mai 2025',
-      statut:'à venir',
-      questions:[
-        'Le moment révolutionnaire a-t-il un début identifiable, ou est-il toujours reconstruit après coup ?',
-        'La révolution change-t-elle les hommes ou seulement les structures de pouvoir ?',
-        'Peut-on faire une révolution sans trahir ceux qui l\'ont initiée ?',
-        'Le moment révolutionnaire produit-il nécessairement de la violence ?',
-        'Qu\'est-ce qui survit au moment révolutionnaire — dans les institutions, dans les mémoires ?'
-      ],
-      livres:[
-        {
-          titre:'Lénine',
-          auteur:'Robert Service',
-          couleur:'#B5D4F4',texte:'#0C447C',
-          resume:'La biographie de référence. Service montre comment Lénine construit le moment révolutionnaire par la volonté, en rupture avec le déterminisme marxiste classique.',
-          isbn:'9780330491228'
-        },
-        {
-          titre:'Le Shah',
-          auteur:'Ryszard Kapuściński',
-          couleur:'#9FE1CB',texte:'#085041',
-          resume:'Kapuściński observe la chute du régime Pahlavi depuis l\'intérieur de l\'Iran. Le moment révolutionnaire saisi dans sa réalité quotidienne, depuis l\'antichambre de l\'effondrement.',
-          isbn:'9782020148351'
-        },
-        {
-          titre:'Les Révolutions d\'Amérique latine',
-          auteur:'Pierre Vayssière',
-          couleur:'#FAC775',texte:'#633806',
-          resume:'Une synthèse des révolutions latino-américaines du XXe siècle. La révolution comme phénomène en série, chaque soulèvement hanté par les précédents.',
-          isbn:'9782020129909'
-        },
-        {
-          titre:'La Grande Révolution chinoise 1800–1989',
-          auteur:'John King Fairbank',
-          couleur:'#CECBF6',texte:'#3C3489',
-          resume:'Le moment révolutionnaire dilué dans le temps long de la civilisation chinoise. Fairbank interroge la prétention révolutionnaire à faire l\'histoire sur fond de continuité multiséculaire.',
-          isbn:'9782070328536'
-        }
-      ],
-      ressources:[
-        {type:'Film',titre:'L\'Internationale — Chris Marker (1970)',note:'18 min. Sur la persistance du mythe révolutionnaire à travers le temps.'},
-        {type:'Texte',titre:'Les Thèses d\'avril — Lénine (1917)',note:'Lénine formulant le moment révolutionnaire en temps réel. 20 minutes de lecture.'},
-        {type:'Film',titre:'Persepolis — Satrapi / Paronnaud (2007)',note:'La révolution iranienne vécue de l\'intérieur, dans la durée ordinaire.'},
-        {type:'Audio',titre:'Discours d\'Allende à la radio, 11 sept. 1973',note:'Document sonore sur la fin d\'un moment révolutionnaire, diffusé pendant le coup d\'État.'},
-        {type:'Film',titre:'No — Pablo Larraín (2012)',note:'La fin de Pinochet par referendum. Le moment révolutionnaire inversé.'},
-        {type:'Film',titre:'Adieu ma concubine — Chen Kaige (1993)',note:'La Révolution culturelle traversée sur plusieurs décennies.'},
-        {type:'Texte',titre:'Discours de Khomeini à Neauphle-le-Château (1978)',note:'Le moment révolutionnaire depuis son antichambre parisienne.'},
-        {type:'Image',titre:'Photographie de Tiananmen (1989)',note:'Le moment révolutionnaire manqué. Boucle la chronologie de Fairbank.'}
-      ]
-    },
-    {
-      id:'s3',
-      theme:'Construire l\'État',
-      date:'4 mai 2025',
-      statut:'à venir',
-      questions:[],
-      livres:[
-        {titre:'Richelieu',auteur:'Arnaud Teyssier',couleur:'#F5C4B3',texte:'#712B13',resume:'',isbn:'9782262039691'},
-        {titre:'Homo Domesticus',auteur:'James C. Scott',couleur:'#C0DD97',texte:'#27500A',resume:'',isbn:'9782348046667'},
-        {titre:'Ibn Saoud : Seigneur du désert, roi d\'Arabie',auteur:'Christian Destremau',couleur:'#B5D4F4',texte:'#0C447C',resume:'',isbn:'9782260021698'}
-      ],
-      ressources:[]
-    },
-    {
-      id:'s2',
-      theme:'Espace et destin humain',
-      date:'2025',
-      statut:'passée',
-      questions:[],
-      livres:[
-        {titre:'L\'Étoffe des héros',auteur:'Tom Wolfe',couleur:'#CECBF6',texte:'#3C3489',resume:'',isbn:'9782070374984'},
-        {titre:'La Ruée vers l\'Espace',auteur:'Xavier Pascon',couleur:'#9FE1CB',texte:'#085041',resume:'',isbn:''},
-        {titre:'Nous ne vivrons pas sur Mars, ni ailleurs',auteur:'Sylvia Ekström',couleur:'#FAC775',texte:'#633806',resume:'',isbn:'9791032912737'}
-      ],
-      ressources:[]
-    },
-    {
-      id:'s1',
-      theme:'Le pouvoir et la mer',
-      date:'2024',
-      statut:'passée',
-      questions:[],
-      livres:[
-        {titre:'Histoire de Gênes',auteur:'Fabian Levy',couleur:'#F5C4B3',texte:'#712B13',resume:'',isbn:''},
-        {titre:'Surcouf',auteur:'Michel Vergé-Franceschi',couleur:'#B5D4F4',texte:'#0C447C',resume:'',isbn:'9782262029289'},
-        {titre:'Le Monde confisqué',auteur:'Arnaud Orain',couleur:'#C0DD97',texte:'#27500A',resume:'',isbn:'9782707196552'}
-      ],
-      ressources:[]
-    }
-  ]
+// ===================== DATA =====================
+const AUTHORS = {
+  "Arnaud Teyssier": {
+    dates: "né en 1957",
+    bio: `Arnaud Teyssier est haut fonctionnaire français, membre du Conseil d'État, et historien. Spécialiste de l'histoire politique et administrative de la France, il a consacré ses travaux aux grandes figures de l'État et aux institutions françaises des XIXe et XXe siècles. Il a notamment dirigé des structures publiques et exercé des responsabilités à l'inspection générale de l'administration. Son approche mêle rigueur archivistique et souci du portrait psychologique, ce qui lui vaut une reconnaissance dans le champ de la biographie historique.`,
+    bib: ["Richelieu (2014)", "Polignac : la démesure d'un ministre de Charles X (2020)", "Clemenceau (2019, codir.)"]
+  },
+  "Christian Destremau": {
+    dates: "né en 1955",
+    bio: `Christian Destremau est diplomate, essayiste et historien français. Après une carrière au Quai d'Orsay qui l'a conduit dans plusieurs pays arabes, il s'est orienté vers l'écriture d'ouvrages historiques sur le monde musulman et les relations franco-arabes. Ses travaux portent sur les grandes personnalités du Moyen-Orient contemporain et sur les dynamiques géopolitiques de la péninsule arabique. Il est reconnu pour sa connaissance du terrain et sa capacité à articuler histoire politique et contexte culturel.`,
+    bib: ["Ibn Saoud (2010)", "T.E. Lawrence (2014)", "Le Moyen-Orient entre guerre et paix (2000)"]
+  },
+  "James C. Scott": {
+    dates: "1936–2024",
+    bio: `James C. Scott est un politologue et anthropologue américain, professeur à l'université Yale. Figure majeure des études agraires et de l'anthropologie politique, il est connu pour son analyse des relations de domination et des formes de résistance quotidienne des populations subalternes. Son œuvre articule ethnographie, histoire comparée et théorie politique dans une perspective résolument critique des grandes institutions étatiques. Il a notamment développé le concept de « metis » (savoir pratique local) en opposition aux formes abstraites de planification étatique.`,
+    bib: ["La Domination et les arts de la résistance (1990)", "Homo domesticus : une histoire profonde des premiers États (2017)", "The Art of Not Being Governed (2009)", "Seeing Like a State (1998)"]
+  },
+  "Michel Vergé-Franceschi": {
+    dates: "né en 1952",
+    bio: `Michel Vergé-Franceschi est historien français, professeur à l'université François-Rabelais de Tours, spécialiste de l'histoire maritime et de la France d'Ancien Régime. Ses recherches portent sur la marine royale française, les corsaires et la géopolitique maritime aux XVIIe et XVIIIe siècles. Il a publié une œuvre abondante consacrée aux grandes figures de la mer et aux institutions navales, contribuant à renouveler l'intérêt pour l'histoire maritime en France.`,
+    bib: ["Surcouf (1997)", "Histoire de la Corse (1996)", "Colbert, la politique du bon sens (2003)", "La Marine française au XVIIIe siècle (1996)"]
+  },
+  "Fabian Levy": {
+    dates: "",
+    bio: `Fabian Levy est un historien et essayiste français spécialiste de l'histoire italienne et des républiques marchandes méditerranéennes. Ses travaux portent sur les dynamiques économiques et politiques des cités-États à la fin du Moyen Âge et à la Renaissance, avec un intérêt particulier pour Gênes, dont il a retracé la trajectoire singulière parmi les grandes puissances commerciales de l'Europe prémoderne.`,
+    bib: ["Histoire de Gênes (2022)"]
+  },
+  "Arnaud Orain": {
+    dates: "",
+    bio: `Arnaud Orain est économiste et historien de la pensée économique, maître de conférences à l'université Paris-VIII. Ses recherches portent sur l'histoire du capitalisme, les théories de la valeur et les relations entre économie et politique dans la longue durée. Il travaille notamment sur les limites biophysiques de la croissance et les formes historiques de l'accumulation capitaliste, dans une perspective qui articule histoire économique et écologie politique.`,
+    bib: ["Le monde confisqué : essai sur le capitalisme de la finitude, XVIe–XXIe siècle (2023)"]
+  },
+  "Tom Wolfe": {
+    dates: "1930–2018",
+    bio: `Tom Wolfe est l'un des écrivains américains les plus influents du XXe siècle. Fondateur du Nouveau Journalisme dans les années 1960 avec des figures comme Hunter S. Thompson et Gay Talese, il développe un style littéraire flamboyant caractérisé par l'usage de la syntaxe parlée, des dialogues restitués et une immersion totale dans les milieux décrits. Ses reportages pour des magazines comme Esquire et New York l'ont rendu célèbre avant qu'il ne se tourne vers le roman. Il est l'auteur du Bûcher des vanités (1987), considéré comme l'un des grands romans américains de la fin du siècle.`,
+    bib: ["L'Étoffe des héros (The Right Stuff, 1979)", "Le Bûcher des vanités (1987)", "Un homme, un vrai (1998)", "Acid Test (1968)"]
+  },
+  "Xavier Pasco": {
+    dates: "né en 1966",
+    bio: `Xavier Pasco est directeur de la Fondation pour la Recherche Stratégique (FRS) et l'un des principaux experts français des politiques spatiales et de leur dimension géopolitique. Ses travaux portent sur l'économie de l'espace, la gouvernance spatiale internationale et les enjeux de sécurité liés à l'usage de l'espace extra-atmosphérique. Il a contribué à structurer la réflexion française sur la politique spatiale civile et militaire dans un contexte de compétition internationale croissante.`,
+    bib: ["L'Espace, nouveaux enjeux géopolitiques (2023)", "La Politique spatiale des États-Unis (2003)", "Un nouvel ordre spatial ? (2017)"]
+  },
+  "Sylvia Ekström": {
+    dates: "",
+    bio: `Sylvia Ekström est chercheuse et essayiste spécialisée dans les questions d'astrobiologie, de planétologie et d'éthique environnementale. Son travail interroge les représentations culturelles et scientifiques de la colonisation spatiale, notamment à travers la critique des projets de terraformation de Mars. Elle adopte une perspective interdisciplinaire qui mêle science, philosophie et écologie pour questionner les présupposés anthropocentriques qui sous-tendent les ambitions spatiales contemporaines.`,
+    bib: ["Nous ne vivrons pas sur Mars, ni ailleurs (2023)"]
+  },
+  "Pierre Vayssière": {
+    dates: "né en 1948",
+    bio: `Pierre Vayssière est historien français, professeur à l'université de Toulouse-Le Mirail, spécialiste de l'histoire contemporaine de l'Amérique latine. Ses travaux portent sur les mouvements révolutionnaires, les guérillas, la violence politique et les rapports entre États-Unis et Amérique latine au XXe siècle. Il est l'une des références françaises pour comprendre les dynamiques politiques du sous-continent, de la révolution cubaine aux mouvements insurrectionnels des années 1960-1980.`,
+    bib: ["Les Révolutions d'Amérique latine (1991)", "L'Amérique latine de 1890 à nos jours (1992)", "Cuba (1996)"]
+  },
+  "John King Fairbank": {
+    dates: "1907–1991",
+    bio: `John King Fairbank est le fondateur des études chinoises modernes aux États-Unis. Professeur à Harvard pendant plus de quarante ans, il a formé des générations de spécialistes et contribué à rendre la Chine contemporaine intelligible pour le lecteur occidental. Son œuvre articule histoire diplomatique, histoire sociale et analyse des civilisations dans la longue durée. Conseiller pendant la Seconde Guerre mondiale, il a également joué un rôle dans la définition de la politique étrangère américaine à l'égard de l'Asie. Sa synthèse sur la révolution chinoise, publiée en 1986, reste une référence incontournable.`,
+    bib: ["La Grande Révolution chinoise, 1800–1989 (1986)", "The United States and China (1948, 4e éd. 1979)", "Chinabound (1982, mémoires)", "The Cambridge History of China (direction, 1978–1991)"]
+  },
+  "Ryszard Kapuściński": {
+    dates: "1932–2007",
+    bio: `Ryszard Kapuściński est le grand reporter polonais du XXe siècle. Correspondant de l'agence de presse polonaise PAP pendant plusieurs décennies, il a couvert une quarantaine de révolutions et coups d'État à travers le monde, principalement en Afrique, en Amérique latine et au Moyen-Orient. Son œuvre, à la frontière du reportage et de la littérature, a fondé un genre à part entière. Son style, d'une précision sensorielle rare, s'attache à saisir l'effondrement des régimes et la psychologie du pouvoir à travers des portraits et des scènes de la vie ordinaire.`,
+    bib: ["Le Shah ou la démesure du pouvoir (1982)", "Le Négus (1978)", "Ébène (1998)", "Imperium (1993)", "Les Guerres du football (1978)"]
+  },
+  "Jean-Jacques Marie": {
+    dates: "né en 1940",
+    bio: `Jean-Jacques Marie est historien français, spécialiste du mouvement ouvrier et de l'histoire soviétique. Trotskiste de formation, il a consacré l'essentiel de son œuvre à l'histoire du bolchevisme et des grandes figures de la révolution russe — Trotski, Staline, Lénine, Boukharine. Ses biographies, fondées sur une documentation archivistique rigoureuse et une connaissance approfondie du russe, sont reconnues comme des contributions majeures à l'historiographie du communisme soviétique en langue française.`,
+    bib: ["Lénine (2004)", "Trotski (2006)", "Staline (2001)", "La Guerre des nationaux-socialistes contre les peuples de l'URSS (2012)"]
+  }
 };
 
-function show(id,btn){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
-}
-
-function stars(n){
-  if(!n||isNaN(n)) return '<span style="color:var(--ink3);font-size:11px">—</span>';
-  n=Math.min(5,Math.max(0,parseInt(n)));
-  return '<span class="stars">'+'★'.repeat(n)+'☆'.repeat(5-n)+'</span>';
-}
-
-function badgeClass(t){
-  return {'Film':'badge-film','Texte':'badge-texte','Théorie':'badge-théorie','Audio':'badge-audio','Image':'badge-image'}[t]||'badge-texte';
-}
-
-function coverEl(l){
-  if(l.isbn){
-    return `<img class="cover" src="https://covers.openlibrary.org/b/isbn/${l.isbn}-M.jpg" alt="${l.titre}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="cover-ph" style="background:${l.couleur};color:${l.texte};display:none">${l.titre.substring(0,3)}</div>`;
+const SEANCES = [
+  {
+    id: 1, theme: "Construire l'État", date: "Automne 2023",
+    books: ["richelieu", "ibnSaoud", "homoDomesticus"]
+  },
+  {
+    id: 2, theme: "Le pouvoir et la mer", date: "Hiver 2023",
+    books: ["surcouf", "genes", "mondeConfisque"]
+  },
+  {
+    id: 3, theme: "Espace et destin humain", date: "Printemps 2024",
+    books: ["etoffe", "espaceGeopol", "marsPas"]
+  },
+  {
+    id: 4, theme: "Le moment révolutionnaire", date: "Automne 2024",
+    books: ["revAmLatine", "revolutionChinoise", "leShah", "lenine"]
+  },
+  {
+    id: 5, theme: "Séance 5", date: "À venir",
+    books: []
   }
-  return `<div class="cover-ph" style="background:${l.couleur};color:${l.texte}">${l.titre.substring(0,3)}</div>`;
-}
+];
 
-function renderAccueil(){
-  const prochaine = DATA.seances.find(s=>s.statut==='à venir');
-  const passees = DATA.seances.filter(s=>s.statut==='passée');
-  const totalLivres = DATA.seances.reduce((a,s)=>a+s.livres.length,0);
-  document.getElementById('next-header').textContent = prochaine ? 'Prochaine : '+prochaine.date : '';
-  document.getElementById('metrics').innerHTML =
-    `<div class="m-card"><div class="m-lbl">Séances</div><div class="m-val">${DATA.seances.length}</div></div>`+
-    `<div class="m-card"><div class="m-lbl">Livres au programme</div><div class="m-val">${totalLivres}</div></div>`+
-    `<div class="m-card"><div class="m-lbl">Membres</div><div class="m-val">${DATA.membres.length}</div></div>`;
-  if(prochaine){
-    document.getElementById('next-card').innerHTML =
-      `<span class="label">Prochaine séance</span>`+
-      `<div class="seance-theme" style="margin-bottom:.25rem">${prochaine.theme}</div>`+
-      `<div style="font-size:12px;color:var(--ink3);margin-bottom:.875rem">${prochaine.date}</div>`+
-      `<hr class="thin">`+
-      `<div style="display:flex;flex-wrap:wrap;gap:5px">${prochaine.livres.map(l=>`<span class="pill pill-brown">${l.titre} — ${l.auteur}</span>`).join('')}</div>`;
-  } else {
-    document.getElementById('next-card').innerHTML='<div class="no-data">Aucune séance prochaine programmée.</div>';
+const BOOKS = {
+  richelieu: {
+    title: "Richelieu", author: "Arnaud Teyssier",
+    genre: "Biographie", pages: 448, edition: "Perrin, 2014",
+    isbn: "9782262040284",
+    seance: 1,
+    resume: `<p>La biographie qu'Arnaud Teyssier consacre à Richelieu se distingue des études antérieures par son souci de restituer la cohérence interne d'un projet politique qui fut, avant tout, une construction intellectuelle autant qu'une pratique de gouvernement. Armand Jean du Plessis de Richelieu (1585–1642) n'est pas seulement le ministre tout-puissant de Louis XIII : il est l'architecte d'une conception de l'État fondée sur la primauté de la raison d'État, c'est-à-dire sur la subordination de toutes les considérations — morales, religieuses, personnelles — à l'intérêt supérieur du royaume.</p><p>Teyssier retrace la trajectoire singulière d'un homme issu d'une petite noblesse provinciale, destiné à l'Église par nécessité familiale, qui va faire de sa marginalité d'origine un outil de compréhension des mécanismes du pouvoir. Évêque de Luçon à vingt-deux ans, il entre dans le jeu politique par la voie des États généraux de 1614, où il s'impose comme un orateur d'une précision redoutable. Sa montée au pouvoir est lente, entravée, soumise aux caprices de la faveur royale et aux intrigues d'une cour profondément divisée. C'est cette lenteur même qui forge sa patience tactique.</p><p>Au cœur du livre se trouve la question de la construction de l'autorité monarchique face aux grands corps intermédiaires — la noblesse féodale, les protestants retranchés dans leurs places de sûreté, les Parlements, les princes du sang. Richelieu n'entend pas détruire ces structures : il entend les soumettre à une hiérarchie fonctionnelle dont le roi est le sommet incontesté. La prise de La Rochelle en 1628, après un siège de treize mois, est à cet égard moins une victoire confessionnelle qu'une démonstration de force institutionnelle : les protestants conservent leur liberté de culte, mais perdent leurs places de sûreté militaires. L'ennemi visé n'est pas l'hérésie, c'est la division.</p><p>Teyssier insiste sur la dimension européenne du projet richelien. La politique étrangère du cardinal, souvent décrite comme cynique, est en réalité cohérente avec une vision géopolitique de long terme : freiner la puissance des Habsbourg, qui encerclent la France sur deux fronts (Espagne au sud, Empire au nord-est), exige des alliances pragmatiques avec des princes protestants allemands, avec la Suède, avec les Provinces-Unies. L'entrée en guerre de 1635 n'est pas une foucade : c'est l'aboutissement d'une stratégie d'affaiblissement conduite depuis dix ans par le financement discret des ennemis de l'Autriche.</p><p>La biographie explore également la face intime du pouvoir : l'épuisement physique d'un homme malade depuis sa jeunesse, gouvernant depuis un corps souffrant ; la solitude du ministre haï par une cour qui ne lui pardonne ni son efficacité ni son orgueil ; la relation ambiguë avec Louis XIII, mélange de dépendance et de tension permanente, où le roi a toujours le dernier mot en théorie, et le ministre en pratique. Teyssier évite l'hagiographie sans tomber dans la démystification : Richelieu reste une figure tragique, conscient que son œuvre sera contestée dès sa mort.</p><p>La conclusion revient sur l'héritage. L'État richelien n'est pas l'État moderne — il reste personnel, clientéliste, fragile. Mais il pose les fondements d'une culture administrative française, d'une conception de la souveraineté indivisible et d'une politique étrangère fondée sur l'intérêt national plutôt que sur la solidarité confessionnelle. C'est ce legs intellectuel, autant que les réformes institutionnelles, qui fait de Richelieu une figure matricielle de l'histoire française.</p>`,
+    themeLink: `<p>La séance « Construire l'État » interroge les conditions dans lesquelles une autorité politique parvient à s'imposer durablement sur un territoire et une population. Richelieu offre un cas d'école : il ne construit pas l'État à partir de rien, mais il en rationalise et centralise les mécanismes dans un contexte de fragmentation extrême.</p><p>Ce que montre Teyssier, c'est que la construction de l'État est d'abord une guerre contre les particularismes — non une guerre militaire, mais une guerre institutionnelle, menée par la norme, l'intendance et la doctrine. Le concept de raison d'État, qui traverse l'ouvrage, est précisément l'outil intellectuel qui permet de légitimer cette centralisation : l'État n'est plus le patrimoine du roi, il est une réalité abstraite dont tous — y compris le roi — sont les serviteurs.</p><p>En regard des autres livres de la séance, Richelieu illustre la voie monarchique-absolutiste de la construction étatique, à distinguer de la voie coloniale (Ibn Saoud, États tribaux unifiés par la violence et la religion) et de la voie anthropologique longue (Homo domesticus, qui questionne l'apparition même des premiers États).</p>`,
+    refs: [
+      { type: "Livre", text: "Le Cardinal de Richelieu et la grande noblesse — Sharon Kettering" },
+      { type: "Livre", text: "Richelieu et la guerre de Trente Ans — David Parrott" },
+      { type: "Essai", text: "Le Testament politique — Richelieu (1688, posthume)" },
+      { type: "Livre", text: "La France de Louis XIII et de Richelieu — Roland Mousnier" }
+    ],
+    ratings: { Karim: 8, Antonin: null, Arnaud: null, Benjamin: 10, Chiara: null, Mathilde: null, Théophile: 3, Hugo: null, Thibaud: null, Vivienne: null, Eloi: null }
+  },
+  ibnSaoud: {
+    title: "Ibn Saoud", author: "Christian Destremau",
+    genre: "Biographie", pages: 512, edition: "Perrin, 2010",
+    isbn: "9782262029685",
+    seance: 1,
+    resume: `<p>L'ouvrage de Christian Destremau retrace la vie et l'œuvre d'Abdelaziz ibn Saoud (1876–1953), fondateur du royaume d'Arabie Saoudite, figure de conquérant du désert et architecte d'un État fondé sur une alliance inédite entre pouvoir politique et autorité religieuse wahhabite. La biographie s'appuie sur une connaissance approfondie du monde arabe acquise au cours d'une longue carrière diplomatique, et s'efforce de restituer la rationalité propre d'un acteur souvent réduit à ses dimensions les plus spectaculaires.</p><p>Destremau commence par décrire la situation des tribus du Najd au tournant du XXe siècle : un espace désertique fragmenté, dominé par des équilibres instables entre clans, où la survie dépend autant de la négociation que de la force armée. Ibn Saoud, chassé de Riyad avec sa famille dans son enfance, reconstruit son pouvoir à partir de presque rien. Sa reprise de la ville en 1902, avec une poignée d'hommes, est le point de départ d'une reconquête méthodique qui s'étale sur trente ans.</p><p>La clef de la réussite d'Ibn Saoud réside dans le pacte qu'il renoue avec le wahhabisme, courant puritain fondé au XVIIIe siècle par Mohammed ibn Abd al-Wahhab, déjà allié historique de la maison des Saoud. Les Ikhwan — frères en armes et en foi — deviennent l'instrument de sa conquête, fanatisés, disciplinés, redoutables. Mais cette alliance comporte ses propres contradictions : les Ikhwan refusent toute modernisation, s'opposent à l'automobile, au téléphone, à l'administration centralisée. Ibn Saoud devra finalement les écraser militairement en 1929 pour pouvoir gouverner un État moderne.</p><p>Destremau retrace ensuite la construction administrative du royaume : la création d'institutions centrales, la gestion des revenus pétroliers naissants après la découverte du pétrole en 1938, la diplomatie avec les puissances coloniales (Grande-Bretagne) et avec les États-Unis. La rencontre avec Roosevelt en 1945, à bord du USS Quincy sur le Grand Lac Amer, est l'un des moments forts du récit : deux visions du monde se confrontent, et un partenariat stratégique durable prend forme.</p><p>Le portrait d'Ibn Saoud qui se dégage n'est pas celui d'un fanatique religieux, mais d'un pragmatique qui utilise la religion comme ciment national et comme instrument de légitimation. Sa polygamie, ses dizaines d'enfants, sa cour immense, participent d'une logique tribale de constitution d'alliances par le sang. La personnalité du fondateur — imposant physiquement, d'une mémoire prodigieuse, capable de tenir des hôtes des heures en conversation — est rendue avec une acuité qui doit beaucoup à l'expérience directe de l'auteur dans la région.</p><p>La biographie se termine sur la fragilité de l'édifice transmis : un État bâti sur la personnalité d'un seul homme, une légitimité religieuse contraignante pour ses successeurs, et une rente pétrolière qui substitue la redistribution clientéliste au consentement politique. Les crises ultérieures du royaume y trouvent leurs racines.</p>`,
+    themeLink: `<p>Ibn Saoud illustre une forme particulière de construction étatique : la fondation d'un État sur un territoire tribalisé, sans administration préexistante, à partir d'une alliance entre charisme personnel et légitimité religieuse. Cette configuration s'oppose point par point au modèle richelien, où l'État est une rationalisation de structures héritées.</p><p>Ce que Destremau montre, c'est que construire un État sur la péninsule arabique au XXe siècle suppose de résoudre deux problèmes simultanément : vaincre les rivalités tribales par la force ou par l'intégration matrimoniale, et obtenir une légitimité transcendante capable de souder des groupes hétérogènes. Le wahhabisme joue ici le rôle que joue la raison d'État chez Richelieu — un principe unificateur supérieur aux loyautés particulières.</p><p>La question posée à la séance — pourquoi et comment des États se construisent — trouve ici une réponse dans les conditions extrêmes du désert : là où il n'y a pas d'institutionalisation préalable, l'État se construit par la personnalité du fondateur et l'idéologie qui lui donne corps.</p>`,
+    refs: [
+      { type: "Livre", text: "The Kingdom — Robert Lacey (1981)" },
+      { type: "Livre", text: "L'Arabie Saoudite — Olivier Da Lage" },
+      { type: "Article", text: "Le wahhabisme et la formation de l'État saoudien — Madawi Al-Rasheed" },
+      { type: "Livre", text: "Inside the Kingdom — Carmen Bin Ladin (2004)" }
+    ],
+    ratings: { Karim: null, Antonin: 8, Arnaud: null, Benjamin: null, Chiara: 4, Mathilde: null, Théophile: null, Hugo: 9, Thibaud: null, Vivienne: 10, Eloi: null }
+  },
+  homoDomesticus: {
+    title: "Homo domesticus", author: "James C. Scott",
+    genre: "Anthropologie", pages: 312, edition: "La Découverte, 2019",
+    isbn: "9782348041884",
+    seance: 1,
+    resume: `<p>Homo domesticus — titre original Against the Grain : A Deep History of the Earliest States (2017) — est l'un des essais d'histoire et d'anthropologie les plus stimulants de la dernière décennie. James C. Scott y propose une relecture radicale de l'origine des États, qui remet en cause l'une des narrations fondatrices de la civilisation occidentale : l'idée que la sédentarisation, l'agriculture et l'État constituent un progrès spontané et bénéfique pour les sociétés humaines.</p><p>La thèse centrale de Scott est provocatrice : pendant des millénaires, les humains ont connu l'agriculture sans pour autant former des États. L'État comme forme d'organisation politique est une invention tardive (vers 3 500–3 000 av. J.-C. en Mésopotamie), contingente, et, surtout, imposée plutôt que choisie. Ce qui constitue un État, pour Scott, c'est avant tout la capacité à prélever — des impôts, du travail, des soldats — et cette capacité repose elle-même sur la maîtrise d'une ressource particulière : les céréales. Contrairement aux tubercules, les céréales sont visibles, stockables, divisibles, taxables. Elles rendent possible le prélèvement bureaucratique. Ce n'est donc pas la production alimentaire qui crée l'État ; c'est la nature de ce qui est produit qui détermine si un État peut se former.</p><p>Scott retrace les premières cités-États mésopotamiennes (Uruk, Lagash) en insistant sur leur fragilité démographique. L'État agraire précoce souffre de mortalité élevée, de fuite des populations (les murailles, suggère-t-il, servaient autant à retenir les habitants qu'à repousser les envahisseurs), d'épidémies, de salinisation des sols. Loin du portrait idyllique de la « révolution néolithique », Scott décrit la sédentarisation comme une régression de la santé humaine, une monotonie alimentaire et une vulnérabilité accrue aux épidémies — conséquence directe de la cohabitation avec les animaux domestiqués.</p><p>La seconde partie de l'ouvrage est consacrée aux « barbares » — terme que Scott retourne : loin d'être des arriérés, les populations non étatisées qui entourent les premières cités ont souvent choisi délibérément de ne pas être gouvernées. Les zones marécageuses, les forêts, les montagnes sont des espaces de résistance à l'emprise étatique. Cette vision anticipe le grand ouvrage ultérieur de Scott, The Art of Not Being Governed (2009), qui explore les highlands d'Asie du Sud-Est sous ce même angle.</p><p>Homo domesticus se termine sur une réflexion sur la « domestication » — terme qui s'applique aux plantes, aux animaux et, implicitement, aux humains eux-mêmes. L'État domestique ses sujets : il les sédentarise, les rend lisibles, prévisibles, taxables. Cette domestication a un coût en liberté et en santé dont les premiers sujets des États ont payé le prix.</p>`,
+    themeLink: `<p>Homo domesticus pose la question de la construction de l'État à l'échelle anthropologique la plus longue, et apporte ainsi une perspective radicalement différente des deux autres livres de la séance. Là où Teyssier et Destremau décrivent des processus de construction étatique dans des contextes où l'État existe déjà comme horizon, Scott interroge pourquoi l'État est apparu du tout, et à quel prix.</p><p>La réponse est déstabilisante : l'État n'est pas un progrès évident, mais une contrainte imposée par des circonstances écologiques et économiques particulières. Cette perspective enrichit considérablement la réflexion sur Richelieu et Ibn Saoud : leurs États ne sont pas le aboutissement naturel d'une téléologie historique, mais des configurations contingentes, des formes de coercition rationalisée qui auraient pu ne pas exister.</p><p>La question que Scott laisse ouverte — et qui peut nourrir la discussion — est celle-ci : si l'État n'est pas une nécessité naturelle, pourquoi acceptons-nous si facilement son emprise ?</p>`,
+    refs: [
+      { type: "Livre", text: "The Art of Not Being Governed — James C. Scott (2009)" },
+      { type: "Livre", text: "Seeing Like a State — James C. Scott (1998)" },
+      { type: "Livre", text: "La Domination et les arts de la résistance — James C. Scott (1992)" },
+      { type: "Livre", text: "Sapiens — Yuval Noah Harari (2011)" },
+      { type: "Article", text: "The ecological basis of civilizations — Peter Richerson et al." }
+    ],
+    ratings: { Karim: null, Antonin: null, Arnaud: 7, Benjamin: null, Chiara: null, Mathilde: 6, Théophile: null, Hugo: null, Thibaud: 7, Vivienne: null, Eloi: 3 }
+  },
+  surcouf: {
+    title: "Surcouf", author: "Michel Vergé-Franceschi",
+    genre: "Biographie", pages: 376, edition: "Fayard, 1997",
+    isbn: "9782213599694",
+    seance: 2,
+    resume: `<p>La biographie que Michel Vergé-Franceschi consacre à Robert Surcouf (1773–1827) restitue la figure d'un corsaire malouin dont la trajectoire illustre, à travers une vie d'exception, les transformations de la guerre maritime à la charnière des XVIIIe et XIXe siècles. Surcouf n'est pas un pirate : c'est un armateur-corsaire, c'est-à-dire un homme qui opère dans le cadre juridique de la lettre de marque, document officiel autorisant la guerre de course contre les navires ennemis. Cette distinction, que Vergé-Franceschi souligne avec soin, est fondamentale pour comprendre la figure du corsaire dans l'économie et la politique de l'époque.</p><p>Né à Saint-Malo dans une famille d'armateurs, Surcouf s'embarque très jeune sur des navires de traite et de commerce avant de se lancer dans la course au large de l'Inde et de l'île de France (actuelle île Maurice). C'est dans l'océan Indien que se déroulent ses exploits les plus retentissants, au moment où les guerres révolutionnaires puis napoléoniennes font du commerce maritime anglais la cible privilégiée des corsaires français. La prise du Kent en 1800 — un navire de la Compagnie des Indes orientales, bien armé, capturé par surprise — est son coup de maître, qui le propulse au rang de figure nationale.</p><p>Vergé-Franceschi décrit minutieusement les pratiques de la guerre de course : les techniques d'abordage, la logistique des expéditions au long cours, le partage du butin entre l'armateur, les actionnaires et l'équipage, la gestion des prisonniers. Il montre que la course n'est pas une aventure romantique mais une entreprise économique rationalisée, soumise à des contraintes financières et logistiques précises. Surcouf est d'abord un chef d'entreprise — ce qui ne l'empêche pas d'être aussi un combattant d'une audace hors du commun.</p><p>La seconde partie de la biographie suit le retour de Surcouf à Saint-Malo et sa reconversion en armateur. Enrichi par ses prises, il investit dans l'armement de navires de commerce et finit sa vie en notable respecté, loin de ses aventures indiennes. Cette trajectoire — du corsaire à l'armateur bourgeois — est symptomatique d'une époque où la frontière entre guerre et commerce est particulièrement poreuse.</p><p>Vergé-Franceschi s'appuie sur les archives de la marine nationale et les documents de l'époque pour corriger les légendes accumulées autour du personnage. L'image du corsaire invincible est nuancée : Surcouf a connu des revers, des mutineries, des procès. Mais sa capacité à transformer chaque difficulté en opportunité, et sa maîtrise des réseaux d'influence à Paris comme à Saint-Malo, font de lui un acteur politique autant qu'un marin d'exception.</p>`,
+    themeLink: `<p>La séance « Le pouvoir et la mer » interroge les formes que prend l'exercice du pouvoir dans l'espace maritime — un espace sans frontières fixes, soumis à des règles différentes de celles qui régissent la terre. Surcouf est à cet égard un cas exemplaire : il incarne une figure de pouvoir fondée sur la mobilité, l'initiative personnelle et la maîtrise technique, plutôt que sur la hiérarchie institutionnelle.</p><p>La mer est ici un espace de liberté régulée : le corsaire n'est pas hors-la-loi, mais sa légitimité est contractuelle et contingente. Elle dépend d'un document (la lettre de marque), d'une relation avec un État qui peut se défaire, et d'une performance permanente (la prise de butin). Ce rapport au pouvoir — personnel, instable, fondé sur l'efficacité plutôt que sur la naissance — contraste avec les formes de pouvoir étudiées lors d'autres séances.</p><p>Surcouf illustre également la dimension économique du pouvoir maritime : la guerre de course est une forme de guerre économique avant l'heure, qui vise à ruiner le commerce adverse plutôt qu'à conquérir des territoires. Cette logique préfigure les blocus et les stratégies de puissance navale qui structureront la géopolitique du XIXe siècle.</p>`,
+    refs: [
+      { type: "Livre", text: "Histoire de la marine française — Michel Vergé-Franceschi" },
+      { type: "Livre", text: "Pirates de l'océan Indien — Jan Rogozinski" },
+      { type: "Livre", text: "The Influence of Sea Power upon History — Alfred Mahan (1890)" },
+      { type: "Livre", text: "Empires of the Monsoon — Richard Hall" }
+    ],
+    ratings: { Karim: 4, Arnaud: 4, Mathilde: 4, Thibaud: 8 }
+  },
+  genes: {
+    title: "Histoire de Gênes", author: "Fabian Levy",
+    genre: "Histoire", pages: 386, edition: "Fayard, 2022",
+    isbn: "9782213718088",
+    seance: 2,
+    resume: `<p>L'Histoire de Gênes de Fabian Levy est une synthèse ambitieuse consacrée à l'une des grandes cités marchandes de la Méditerranée médiévale et de la Renaissance. Gênes occupe dans l'histoire européenne une position singulière : ni empire, ni grand État territorial, ni puissance coloniale au sens classique, elle a exercé pendant plusieurs siècles une influence économique et financière sans commune mesure avec sa taille et ses ressources propres. C'est précisément ce paradoxe — une cité sans hégémonie politique construisant une hégémonie économique — que Levy cherche à élucider.</p><p>L'ouvrage s'ouvre sur les origines de la commune génoise, au XIIe siècle, moment où la ville se constitue en entité politique autonome sous la direction de ses grandes familles marchandes. Contrairement à Venise, Gênes n'a pas développé d'État centralisé fort : elle est le lieu de rivalités permanentes entre familles (les Grimaldi, les Doria, les Spinola, les Fieschi), organisées en factions dont les luttes structurent toute la vie politique locale. Levy montre que cette instabilité chronique, souvent perçue comme une faiblesse, est en réalité la condition d'une grande flexibilité économique : les Génois, ne pouvant compter sur un État protecteur puissant, développent des instruments financiers et contractuels d'une sophistication remarquable pour gérer le risque.</p><p>Le cœur du livre est consacré à l'expansion génoise en Méditerranée orientale et en mer Noire. Les comptoirs de Péra (face à Constantinople), de Caffa (en Crimée) et d'autres établissements côtiers forment un réseau commercial qui donne à Gênes le contrôle des routes de la soie et des épices avant que les Ottomans ne ferment progressivement ces accès. La chute de Constantinople en 1453 est un tournant : elle oblige Gênes à se réorienter vers l'Atlantique, et c'est de cette réorientation que naît la participation génoise aux expéditions de découverte — Christophe Colomb lui-même étant Génois.</p><p>Levy consacre un chapitre important au rôle des Génois dans les finances de la monarchie espagnole aux XVIe et XVIIe siècles. Après avoir perdu leurs bases orientales, les grandes familles génoises se reconvertissent en banquiers des Habsbourg, finançant les guerres de Charles Quint et de Philippe II en échange de concessions commerciales et de garanties sur les arrivées d'argent américain. Ce « siècle des Génois » (1557–1627), mis en lumière par Fernand Braudel, est ici décrit avec précision : Gênes devient la capitale financière de l'Europe sans jamais être une puissance militaire.</p><p>La fin de l'ouvrage retrace le déclin progressif au XVIIIe siècle, l'absorption dans l'espace napoléonien, et l'intégration au Royaume de Sardaigne, qui fera de Gênes le port naturel de l'Italie unifiée. Garibaldi, né génois, y figure comme ultime expression du génie aventurier de la cité.</p>`,
+    themeLink: `<p>Gênes est un cas extrême dans la réflexion sur le pouvoir maritime : une cité qui a exercé une puissance économique mondiale sans jamais avoir de marine militaire vraiment puissante ni d'armée de terre significative. Son pouvoir repose entièrement sur la finance, le réseau et le droit contractuel — une forme de domination invisible, mais redoutable.</p><p>Dans le cadre de la séance « Le pouvoir et la mer », Gênes illustre que la maîtrise des mers ne se réduit pas à la puissance navale. Elle peut être une maîtrise des flux — des marchandises, des informations, des capitaux — exercée depuis les comptoirs et les bureaux de change plutôt que depuis les ponts des navires de guerre. Cette forme de pouvoir est plus fragile (elle dépend de la confiance et de la stabilité des routes), mais aussi plus diffuse et plus difficile à contester militairement.</p><p>La comparaison avec Surcouf est instructive : là où le corsaire malouin incarne un pouvoir individuel, fondé sur l'audace et la violence, Gênes incarne un pouvoir collectif, fondé sur la réputation, la liquidité et la capacité à mobiliser des réseaux.</p>`,
+    refs: [
+      { type: "Livre", text: "La Méditerranée au temps de Philippe II — Fernand Braudel" },
+      { type: "Livre", text: "Venice and the Defense of Republican Liberty — William J. Bouwsma" },
+      { type: "Livre", text: "Le Siècle des Génois — Fernand Braudel (in Civilisation matérielle, t. III)" },
+      { type: "Article", text: "Gênes et la finance européenne, XVIe–XVIIe siècles — Felipe Ruiz Martín" }
+    ],
+    ratings: { Antonin: 7, Chiara: 10, Hugo: 7 }
+  },
+  mondeConfisque: {
+    title: "Le monde confisqué", author: "Arnaud Orain",
+    genre: "Économie", pages: 340, edition: "La Découverte, 2023",
+    isbn: "9782348071904",
+    seance: 2,
+    resume: `<p>Le monde confisqué est un essai d'histoire économique de longue durée qui propose une relecture du capitalisme à travers le prisme de la finitude des ressources naturelles. Arnaud Orain y développe une thèse originale : le capitalisme n'a pas seulement généré de la croissance et de la richesse, il a systématiquement organisé une confiscation des biens communs — terres, forêts, littoraux, ressources halieutiques, atmosphère — au profit d'intérêts privés ou étatiques. Cette confiscation, entamée dès le XVIe siècle avec les enclosures anglaises et l'exploitation coloniale, constitue le moteur caché de l'accumulation capitaliste.</p><p>Orain commence par revisiter la notion de « biens communs » (commons) à travers l'histoire européenne et mondiale. Contre la thèse de Hardin (la « tragédie des communs », 1968), qui soutient que les biens partagés sont nécessairement surexploités par des individus rationnels, Orain montre, en s'appuyant sur les travaux d'Elinor Ostrom, que les communautés rurales et côtières ont souvent géré ces ressources de manière durable pendant des siècles. Ce sont les enclosures — l'appropriation privée des terres communes — et la colonisation — l'appropriation des terres et ressources des peuples non-européens — qui ont détruit ces équilibres.</p><p>Le chapitre central de l'essai est consacré à ce qu'Orain appelle la « frontière de la finitude » : le moment où une société capitaliste se heurte aux limites physiques des ressources qu'elle exploite. Cette frontière a été repoussée successivement par l'exploration géographique (de nouvelles terres à coloniser), par les innovations techniques (l'intensification agricole, l'énergie fossile) et par la mondialisation des échanges (importer les ressources là où elles sont disponibles). Mais ces solutions successives n'ont fait que déplacer le problème, en aggravant la dépendance aux énergies fossiles et en épuisant les réservoirs de biodiversité.</p><p>Orain retrace ensuite l'histoire des grands mouvements d'enclosure au XVIe–XVIIIe siècle en Angleterre, puis leur équivalent colonial (dépossession des communautés autochtones), et enfin leurs formes contemporaines (privatisation des ressources génétiques, des données numériques, de l'espace hertzien). Le capitalisme de la finitude, dans cette perspective, n'est pas seulement un problème écologique : c'est un problème politique, une question de qui contrôle les ressources et au nom de quoi.</p><p>La conclusion de l'essai est résolument critique mais non utopiste : Orain ne propose pas de solution miracle, mais insiste sur la nécessité de repenser la propriété des biens communs à l'échelle globale, de rouvrir des espaces de gestion collective qui ont été fermés depuis plusieurs siècles. C'est un plaidoyer pour une économie politique attentive aux limites du monde matériel.</p>`,
+    themeLink: `<p>Le lien entre Le monde confisqué et la séance « Le pouvoir et la mer » est d'abord littéral : la mer est l'un des grands biens communs que l'histoire du capitalisme a progressivement confisqués. Les ressources halieutiques, les routes maritimes, les fonds marins — tous ont fait l'objet d'appropriations privées ou étatiques qui ont transformé un espace commun en espace de compétition économique.</p><p>Mais le lien est aussi plus profond : l'essai d'Orain propose une clef de lecture économique des dynamiques de puissance maritime. La maîtrise des mers n'est pas seulement une question de force navale (Surcouf) ou de réseau financier (Gênes) : c'est aussi une question de contrôle des ressources naturelles. Les grandes puissances maritimes ont presque toujours été des puissances qui contrôlaient l'accès aux ressources — poissons, bois de marine, métaux précieux coloniaux.</p><p>Orain rappelle ainsi que le pouvoir maritime a une infrastructure matérielle que l'histoire politique tend à oublier, et que cette infrastructure est toujours une question de droits de propriété et d'exclusion.</p>`,
+    refs: [
+      { type: "Livre", text: "Governing the Commons — Elinor Ostrom (1990)" },
+      { type: "Livre", text: "La Grande Transformation — Karl Polanyi (1944)" },
+      { type: "Livre", text: "This Changes Everything — Naomi Klein (2014)" },
+      { type: "Article", text: "The Tragedy of the Commons — Garrett Hardin (1968)" }
+    ],
+    ratings: { Benjamin: 10, Théophile: 3, Vivienne: 2, Eloi: 10 }
+  },
+  etoffe: {
+    title: "L'Étoffe des héros", author: "Tom Wolfe",
+    genre: "Récit", pages: 496, edition: "Gallimard, 1983",
+    isbn: "9782070280681",
+    seance: 3,
+    resume: `<p>L'Étoffe des héros (The Right Stuff, 1979) est l'œuvre qui a consacré Tom Wolfe comme l'un des maîtres du Nouveau Journalisme américain. Ce récit long — à la frontière du reportage, de la biographie collective et du roman — retrace l'épopée des premiers pilotes d'essai américains et des astronautes du programme Mercury, de la fin des années 1940 au début des années 1960. À travers leurs histoires entrelacées, Wolfe interroge la nature du courage, du mythe héroïque et de la compétition entre nations dans le contexte de la Guerre froide.</p><p>Le livre s'ouvre sur la base aérienne d'Edwards, en Californie, où se forment les meilleurs pilotes d'essai du pays. Wolfe décrit avec précision la culture de cette élite : un code de conduite implicite, une hiérarchie fondée non sur le grade mais sur la performance au combat et dans les airs, une maîtrise du risque et de la peur qui ne s'exprime jamais directement mais se lit dans chaque geste. C'est ce code qu'il nomme « l'étoffe » (the right stuff) — une qualité indéfinissable mais immédiatement reconnaissable pour ceux qui la possèdent.</p><p>Au cœur du récit se trouve Chuck Yeager, le premier homme à franchir le mur du son en 1947, qui deviendra le symbole de cette culture de pilote d'essai — et qui, paradoxalement, ne sera jamais astronaute, sa trajectoire de classe ne le rendant pas éligible au programme civil. Sa présence en filigrane tout au long du livre sert de contre-modèle : l'étoffe des pilotes militaires et l'étoffe des astronautes ne sont pas la même chose.</p><p>Wolfe décrit ensuite la sélection du premier groupe d'astronautes Mercury (les « Mercury Seven ») avec un mélange d'admiration et d'ironie. Les critères médicaux absurdes, la mise en scène médiatique, la transformation de pilotes d'essai habitués à la solitude et au risque individuels en symboles nationaux destinés à être exhibés à la presse — tout cela révèle la dimension proprement politique et spectaculaire du programme spatial américain. Les astronautes ne pilotent pas vraiment leurs capsules ; ils sont, selon le mot cruel d'un de leurs instructeurs, des « Spam in a can ».</p><p>L'arrière-plan de Spoutnik et de la compétition soviétique est omniprésent. Chaque succès américain est mesuré à l'aune de la supériorité technique soviétique perçue, ce qui crée une pression politique permanente sur la NASA naissante. Wolfe montre comment cette pression déforme les priorités du programme : on préfère l'image à la substance, le risque médiatique calculé au risque technique maîtrisé.</p><p>L'écriture de Wolfe est reconnaissable entre toutes : des phrases syncopées, des onomatopées, des dialogues restitués dans leur argot de pilote, des variations de point de vue qui plongent le lecteur dans la conscience des personnages. Ce style — souvent imité, rarement égalé — n'est pas seulement esthétique : il est épistémologique. Wolfe cherche à restituer ce que les personnages ressentent de l'intérieur, pas seulement ce qu'ils font.</p>`,
+    themeLink: `<p>Dans la séance « Espace et destin humain », L'Étoffe des héros occupe une place particulière : c'est le seul livre de la sélection qui aborde l'espace non comme un objet de réflexion géopolitique ou scientifique, mais comme une expérience humaine vécue de l'intérieur. Ce choix formel — le Nouveau Journalisme comme mode de connaissance — est lui-même une réponse à la question du rapport entre l'homme et un environnement radicalement hostile.</p><p>Ce que Wolfe montre, c'est que l'aventure spatiale est d'abord une construction culturelle et politique avant d'être une réalité physique. L'espace est un théâtre où se joue la compétition des puissances, et les astronautes sont des acteurs d'une mise en scène dont ils ne maîtrisent pas le script. Cette démystification est importante pour la séance : elle rappelle que les projections humaines dans l'espace (vers Mars et au-delà) ne sont jamais purement technologiques — elles sont toujours chargées d'idéologie, de prestige national, de représentations culturelles du progrès.</p><p>En creux, le livre pose la question de savoir ce que l'espace fait aux hommes qui s'y confrontent — non pas physiquement, mais psychologiquement et moralement. La réponse de Wolfe est ambiguë : il y a quelque chose d'exaltant dans cette rencontre avec la limite, et quelque chose de profondément humiliant dans la façon dont cette limite est exploitée par les politiques et les médias.</p>`,
+    refs: [
+      { type: "Livre", text: "Of a Fire on the Moon — Norman Mailer (1970)" },
+      { type: "Film", text: "The Right Stuff — Philip Kaufman (1983)" },
+      { type: "Livre", text: "Carrying the Fire — Michael Collins (1974)" },
+      { type: "Livre", text: "Endurance — Scott Kelly (2017)" }
+    ],
+    ratings: { Karim: 3, Benjamin: 9, Théophile: 3, Vivienne: 7 }
+  },
+  espaceGeopol: {
+    title: "L'Espace, nouveaux enjeux géopolitiques", author: "Xavier Pasco",
+    genre: "Géopolitique", pages: 256, edition: "La Documentation française, 2023",
+    isbn: "",
+    seance: 3,
+    resume: `<p>Xavier Pasco, directeur de la Fondation pour la Recherche Stratégique, propose dans cet ouvrage une synthèse rigoureuse et actualisée des transformations géopolitiques liées à l'espace extra-atmosphérique dans le contexte de la compétition internationale du XXIe siècle. L'espace, longtemps domaine réservé des superpuissances dans le cadre d'une compétition bipolaire relativement lisible, est en train de devenir un champ de rivalités multipolaires, commerciales et militaires, dont les implications pour la sécurité mondiale sont encore mal comprises.</p><p>Pasco commence par rappeler les fondements juridiques du régime spatial international : le Traité de l'espace de 1967, qui proclame l'espace « patrimoine commun de l'humanité » et interdit les appropriations nationales de corps célestes. Ce cadre, négocié à l'apogée de la Guerre froide, est aujourd'hui profondément mis à l'épreuve par deux évolutions concomitantes : l'émergence de nouveaux acteurs étatiques (Chine, Inde, Émirats, Japon, Corée du Sud) et l'irruption d'acteurs privés (SpaceX, Blue Origin, Planet Labs) qui ne se reconnaissent pas toujours dans les régulations établies.</p><p>Le chapitre central de l'ouvrage est consacré à la militarisation de l'espace. Pasco distingue soigneusement la militarisation (utilisation de satellites à des fins militaires, pratique courante depuis les années 1960) de la weaponisation (déploiement d'armes dans l'espace, aujourd'hui en cours de développement par plusieurs puissances). Les tests de missiles antisatellites (ASAT) — réalisés par la Chine en 2007, l'Inde en 2019, la Russie en 2021 — ont créé des nuages de débris qui menacent la durabilité de l'espace orbital. Ils signalent surtout que l'espace est désormais un domaine de compétition militaire à part entière.</p><p>Pasco analyse ensuite les stratégies des grandes puissances spatiales. Les États-Unis, qui ont créé le US Space Force en 2019, cherchent à maintenir leur supériorité dans un domaine où la Chine a rattrapé une grande partie de son retard. La Chine, de son côté, a développé un programme spatial civil et militaire intégré, visant à l'autonomie complète en matière de lanceurs, de satellites et d'exploration lunaire d'ici 2030. L'Europe, avec l'Agence spatiale européenne et ses membres nationaux, navigue entre dépendance aux lanceurs américains (après l'échec d'Ariane 6) et ambitions d'autonomie stratégique.</p><p>L'ouvrage aborde également la dimension économique de la nouvelle économie spatiale (NewSpace) : les constellations de satellites (Starlink de SpaceX, OneWeb) transforment l'économie des télécommunications et créent de nouvelles dépendances stratégiques. Un État ou une alliance militaire qui perd l'accès à ses satellites perd instantanément une grande partie de ses capacités de commandement, de navigation et de renseignement.</p><p>Pasco conclut sur la nécessité d'un nouveau cadre de gouvernance spatiale internationale, capable de réguler à la fois la congestion orbitale, les armes antisatellites et les revendications d'appropriation lunaire. Il est réservé sur les chances d'y parvenir dans un contexte de défiance croissante entre les grandes puissances.</p>`,
+    themeLink: `<p>L'espace géopolitique de Pasco dialogue directement avec les deux autres livres de la séance en proposant une lecture stratégique et institutionnelle de ce que l'espace représente pour les États contemporains. Là où Wolfe montre l'espace comme mythe héroïque et construction médiatique, et où Ekström le critique comme projet écologiquement irresponsable, Pasco en fait une arène de puissance parmi d'autres — soumise aux mêmes logiques de compétition, d'alliance et de dissuasion que les espaces terrestres et maritimes.</p><p>Cette lecture géopolitique est essentielle pour comprendre pourquoi les ambitions spatiales contemporaines ne relèvent pas seulement de l'exploration scientifique. Retourner sur la Lune, aller sur Mars, déployer des constellations de satellites — ce sont des actes politiques avant d'être des actes techniques. Pasco le montre avec la rigueur du stratège, sans la verve de Wolfe ni la radicalité d'Ekström, mais avec une précision documentaire précieuse.</p>`,
+    refs: [
+      { type: "Rapport", text: "Space Strategy for Europe — ESA (2023)" },
+      { type: "Livre", text: "The New Space Race — Namrata Goswami (2021)" },
+      { type: "Article", text: "Outer Space Treaty and its loopholes — Laura Grego, FAS" },
+      { type: "Livre", text: "Guerre dans l'espace — Xavier Pasco & Laurence Nardon (2021)" }
+    ],
+    ratings: { Antonin: 6, Chiara: 10, Hugo: 4, Eloi: 6 }
+  },
+  marsPas: {
+    title: "Nous ne vivrons pas sur Mars, ni ailleurs", author: "Sylvia Ekström",
+    genre: "Sciences", pages: 224, edition: "Le Passager clandestin, 2023",
+    isbn: "",
+    seance: 3,
+    resume: `<p>Cet essai de Sylvia Ekström constitue une critique frontale et documentée des projets de colonisation de Mars et, plus généralement, de l'idée que l'humanité pourrait ou devrait trouver une « planète de rechange » en cas de catastrophe écologique terrestre. La thèse est simple et radicale : non seulement la colonisation de Mars est techniquement irréaliste à l'échelle de plusieurs siècles, mais elle est surtout idéologiquement dangereuse, car elle nourrit l'illusion que les crises environnementales terrestres ont une solution spatiale.</p><p>Ekström commence par un examen des contraintes physiques de la vie sur Mars : une atmosphère de CO₂ à 0,6 % de pression atmosphérique terrestre, des températures moyennes de -63°C, une exposition aux radiations cosmiques sans protection magnétosphérique, l'absence d'eau liquide en surface. Elle décrit ce que signifierait réellement vivre sur Mars : des habitats entièrement pressurisés, une dépendance absolue à des systèmes techniques extrêmement complexes, une alimentation entièrement artificielle, et une reproduction biologique dont on ne connaît pas les effets sur plusieurs générations dans une gravité réduite (38 % de la gravité terrestre).</p><p>Le deuxième temps de l'essai est consacré aux coûts et aux délais. Ekström reprend les estimations les plus optimistes de SpaceX et de la NASA et montre qu'elles reposent sur des hypothèses irréalistes — notamment sur le coût des lanceurs, la résolution de problèmes médicaux non encore identifiés, et la disponibilité de ressources martiennes exploitables. Elle compare ces projections aux grandes entreprises technologiques du passé (le Concorde, les réacteurs nucléaires à fusion) pour montrer que l'optimisme technologique a une tendance structurelle à sous-estimer la complexité réelle.</p><p>La partie la plus originale de l'essai est sa critique idéologique. Ekström identifie dans le fantasme de la colonisation martienne une structure de pensée qu'elle appelle le « motif de la porte de sortie » : l'idée que si la Terre devient inhabitable, il suffira de partir ailleurs. Cette idée, portée par des milliardaires comme Elon Musk et Jeff Bezos, est présentée comme philanthropique (« sauver l'espèce humaine ») mais est en réalité le reflet d'une vision du monde qui refuse la responsabilité de la catastrophe écologique en lui substituant une solution technique future.</p><p>Ekström élargit enfin sa critique à toutes les formes de « fuite » planétaire — terraformation, biosphères artificielles, génération-ships — pour montrer que leur point commun est de reporter sur des technologies futures la résolution de problèmes que nous pourrions résoudre aujourd'hui par des choix politiques et économiques différents. La conclusion est sans ambiguïté : il n'y aura pas de planète B, et le croire est une forme d'irresponsabilité collective.</p>`,
+    themeLink: `<p>Dans la séance « Espace et destin humain », l'essai d'Ekström occupe la position critique qui manquerait sans lui : il refuse le cadre de l'enthousiasme spatial pour en démonter les présupposés. La question du « destin humain » dans l'espace n'est pas seulement scientifique ou géopolitique — elle est profondément morale et politique.</p><p>En dialogue avec Wolfe, Ekström montre que le « droit stuff » des pionniers de l'espace, si fascinant soit-il, ne saurait constituer un modèle pour l'humanité dans son ensemble. L'héroïsme individuel des astronautes ne résout pas la question de savoir si l'espèce humaine a vocation à quitter la Terre. En dialogue avec Pasco, elle rappelle que derrière les stratégies géopolitiques spatiales, il y a des choix technologiques et financiers colossaux dont les coûts d'opportunité sont rarement calculés.</p><p>La tension entre la fascination pour l'espace et le réalisme sur ses limites est au cœur de la séance, et Ekström en est la voix la plus inconfortable — peut-être la plus nécessaire.</p>`,
+    refs: [
+      { type: "Livre", text: "The Case Against Mars — Robert Zubrin (pour le contre-argument)" },
+      { type: "Livre", text: "How to Make a Spaceship — Julian Guthrie (2016)" },
+      { type: "Article", text: "Mars colonization: ethics and geopolitics — Tony Milligan (2015)" },
+      { type: "Livre", text: "The Uninhabitable Earth — David Wallace-Wells (2019)" }
+    ],
+    ratings: { Arnaud: 7, Mathilde: 2, Thibaud: 8 }
+  },
+  revAmLatine: {
+    title: "Les Révolutions d'Amérique latine", author: "Pierre Vayssière",
+    genre: "Histoire", pages: 316, edition: "Seuil, Points Histoire, 1991",
+    isbn: "9782020130660",
+    seance: 4,
+    resume: `<p>Les Révolutions d'Amérique latine de Pierre Vayssière est une synthèse comparée des grands mouvements révolutionnaires qui ont traversé le sous-continent latino-américain au XXe siècle. L'ouvrage, devenu un classique de la littérature universitaire française sur l'Amérique latine, couvre une période qui va de la révolution mexicaine (1910) à la transition nicaraguayenne des années 1980, en passant par les révolutions cubaine, bolivienne, péruvienne et chilienne. Son ambition est de dégager des structures communes tout en rendant justice aux singularités nationales.</p><p>Vayssière commence par poser le cadre structurel : l'Amérique latine du XXe siècle est une région marquée par des inégalités foncières extrêmes héritées de la colonisation, par la dépendance économique vis-à-vis des puissances extérieures (d'abord la Grande-Bretagne, puis les États-Unis), et par des États faibles, incapables de redistribuer la croissance ou de stabiliser les conflits sociaux. Ces conditions ne produisent pas mécaniquement des révolutions, mais elles créent un terreau dans lequel les crises peuvent basculer vers l'insurrection.</p><p>La révolution mexicaine (1910–1920) est traitée en premier, comme matrice des révolutions ultérieures. Vayssière en souligne le caractère pluriel et contradictoire : ce n'est pas une révolution unifiée par une idéologie commune, mais une convergence temporaire de jacqueries paysannes (Zapata dans le Morelos), de caudillismes militaires (Villa dans le Nord) et de mouvements libéraux urbains (Madero). Le résultat — un régime institutionnel qui récupère le vocabulaire révolutionnaire sans en accomplir les promesses sociales — préfigure de nombreuses révolutions ultérieures.</p><p>La révolution cubaine (1959) occupe le centre du livre. Vayssière en retrace la dynamique depuis la guérilla sierra-maestra jusqu'à l'institutionnalisation castriste, en insistant sur la question de l'exportation révolutionnaire. La tentative de Che Guevara en Bolivie (1967), qui se termine par sa capture et son exécution, est analysée comme un symptôme de l'erreur de diagnostic : Guevara croyait que les conditions objectives de la révolution étaient partout réunies en Amérique latine, alors que Cuba avait bénéficié de circonstances exceptionnelles.</p><p>Vayssière consacre des pages importantes à la relation entre révolutions latino-américaines et États-Unis. La doctrine Monroe, les interventions militaires (Guatemala 1954, Chili 1973), le financement des contras nicaraguayens — tout cela dessine une géopolitique de la contre-révolution qui conditionne profondément les possibilités offertes aux mouvements révolutionnaires. Allende est ici analysé en détail : son expérience chilienne (1970–1973) est présentée comme la tentative la plus sérieuse de voie démocratique vers le socialisme, brutalement interrompue par le coup d'État de Pinochet avec l'appui de la CIA.</p><p>La conclusion de Vayssière est nuancée : les révolutions d'Amérique latine ont souvent renversé des dictatures et mobilisé des populations, mais elles n'ont que rarement résolu les inégalités structurelles qui les avaient produites. Elles ont parfois substitué une forme d'autoritarisme à une autre, ou ont été étouffées avant d'avoir pu mener à bien leurs programmes. Ce bilan mitigé n'est pas une condamnation morale : c'est un constat sur la résistance des structures économiques et géopolitiques aux volontés de transformation politique.</p>`,
+    themeLink: `<p>Le moment révolutionnaire, dans la séance du même nom, désigne cet instant de bascule où les équilibres anciens se défont et où tout semble possible — avant que les contraintes de la réalité ne se réimposent. Vayssière montre que ce moment, en Amérique latine, est presque toujours suivi d'une récupération ou d'une trahison.</p><p>Ce qui est en question dans ces révolutions, c'est précisément la possibilité de tenir le moment révolutionnaire dans la durée : de transformer l'élan de la rupture en institutions stables et équitables. L'Amérique latine offre un laboratoire de cette question, avec des réponses très variées — de la révolution institutionnalisée mexicaine à la révolution exportée cubaine, en passant par la révolution démocratique avortée chilienne.</p><p>En dialogue avec les autres livres de la séance (Fairbank, Kapuściński, Jean-Jacques Marie), Vayssière permet de mesurer ce qui est spécifiquement latino-américain dans ces révolutions — notamment le poids de la dépendance externe — et ce qui relève de dynamiques révolutionnaires universelles.</p>`,
+    refs: [
+      { type: "Livre", text: "La Révolution cubaine — K.S. Karol (1970)" },
+      { type: "Livre", text: "Open Veins of Latin America — Eduardo Galeano (1971)" },
+      { type: "Livre", text: "Killing Hope — William Blum (1995)" },
+      { type: "Livre", text: "The Bolivian Diary — Ernesto Che Guevara (1968)" }
+    ],
+    ratings: { Karim: 7, Chiara: 7 }
+  },
+  revolutionChinoise: {
+    title: "La Grande Révolution chinoise", author: "John King Fairbank",
+    genre: "Histoire", pages: 576, edition: "Flammarion, 1989",
+    isbn: "9782082108409",
+    seance: 4,
+    resume: `<p>La Grande Révolution chinoise, 1800–1989 est la synthèse maîtresse de John King Fairbank, publiée à Harvard en 1986 et traduite en français trois ans plus tard. Fairbank y retrace deux siècles de transformations chinoises — de la fin de la domination mandchoue à la veille des événements de Tiananmen — dans une perspective de longue durée qui articule histoire politique, économique, sociale et culturelle. C'est l'un des grands livres de l'historiographie du XXe siècle sur la Chine, accessible au grand public tout en restant d'une rigueur exemplaire.</p><p>Le point de départ de Fairbank est la Chine impériale telle qu'elle se présente au début du XIXe siècle : un empire de 300 millions d'habitants, gouverné par une bureaucratie confucéenne d'une sophistication remarquable, convaincu de sa propre supériorité civilisationnelle et profondément réticent à s'ouvrir au commerce et à la culture occidentaux. Cette autosuffisance présumée est le premier problème que le livre analyse : pourquoi la Chine n'a-t-elle pas pu absorber les transformations de la modernité aussi rapidement que le Japon ?</p><p>La réponse de Fairbank est complexe. Il pointe la rigidité du système d'examen mandarin, qui reproduit une élite lettrée dont la compétence est définie par la maîtrise des classiques confucéens plutôt que par les sciences naturelles ou les techniques nouvelles. Il insiste sur la taille même de l'empire, qui rend toute réforme centrale difficile à diffuser dans les provinces. Et il analyse les guerres de l'Opium (1839–1842, 1856–1860) non comme une simple agression étrangère mais comme le révélateur d'une fragilité militaire et institutionnelle que la Chine n'avait pas encore pris la mesure.</p><p>La révolte des Taiping (1850–1864) — l'un des conflits les plus meurtriers de l'histoire humaine, avec entre 20 et 30 millions de morts — est au centre du livre comme symptôme d'une crise systémique. Une secte chrétienne syncrétiste a failli renverser la dynastie Qing : ce fait seul dit l'ampleur de la désintégration interne. La restauration Tongzhi qui suit tente de moderniser l'armée sans toucher aux fondements du système — ce que Fairbank appelle le « self-strengthening » — et échoue à préparer la Chine à la compétition impérialiste.</p><p>La révolution républicaine de 1911, la période des seigneurs de la guerre, l'émergence du Kuomintang et du Parti communiste, la guerre sino-japonaise (1937–1945), et finalement la victoire maoïste de 1949 sont analysés comme une séquence d'essais successifs pour trouver une forme politique capable de réunifier et de moderniser la Chine. Fairbank traite le maoïsme non comme une aberration mais comme une réponse — certes tragique — à des problèmes réels : la redistribution foncière, l'unité nationale, l'élimination des élites parasitaires.</p><p>La Révolution culturelle (1966–1976) est décrite comme le moment où le projet révolutionnaire se retourne contre lui-même : la destruction des institutions, des savoirs et des cadres compétents qu'elle engendre prive la Chine d'une génération de ses élites et laisse un pays épuisé. Les réformes de Deng Xiaoping à partir de 1978 sont lues comme une rupture pragmatique qui abandonne l'idéologie révolutionnaire tout en maintenant le monopole du Parti — une formule instable dont le livre souligne les tensions sans pouvoir en prévoir le dénouement (Tiananmen surviendra après sa publication).</p>`,
+    themeLink: `<p>La Chine de Fairbank illustre une forme particulière de moment révolutionnaire : non pas l'explosion ponctuelle d'un régime, mais un processus révolutionnaire qui dure près de deux siècles et qui superpose des révolutions successives (1911, 1949, 1966) sans jamais parvenir à stabiliser définitivement un nouvel ordre.</p><p>Ce que Fairbank apporte à la séance, c'est la notion de révolution comme processus de longue durée. Le moment révolutionnaire n'est pas seulement l'instant de la prise du pouvoir : c'est aussi la longue période de reconstruction institutionnelle qui suit, et qui est souvent aussi traumatisante que la rupture initiale. La Révolution culturelle, dans cette perspective, est moins une anomalie qu'une conséquence de la logique révolutionnaire elle-même.</p><p>La comparaison avec les autres révolutions de la séance est éclairante : là où Kapuściński s'intéresse à l'effondrement d'un régime (l'Iran du Shah), et où Vayssière analyse des révolutions qui n'ont pas abouti, Fairbank décrit une révolution qui a réussi — au sens où elle a transformé en profondeur la société et l'État — mais à un coût humain vertigineux.</p>`,
+    refs: [
+      { type: "Livre", text: "La Chine du communisme — Jean-Luc Domenach" },
+      { type: "Livre", text: "Mao — Philip Short (1999)" },
+      { type: "Livre", text: "Wild Swans — Jung Chang (1991)" },
+      { type: "Livre", text: "The Search for Modern China — Jonathan Spence (1990)" }
+    ],
+    ratings: { Antonin: 8, Mathilde: 8, Thibaud: 7 }
+  },
+  leShah: {
+    title: "Le Shah", author: "Ryszard Kapuściński",
+    genre: "Récit", pages: 224, edition: "Flammarion, 2010",
+    isbn: "9782081237063",
+    seance: 4,
+    resume: `<p>Le Shah (Shah of Shahs, 1982) est l'un des livres les plus singuliers de Ryszard Kapuściński, et peut-être son chef-d'œuvre. Écrit quelques mois après la révolution islamique iranienne de 1979, à partir de notes prises sur place et de documents photographiques, il propose une méditation sur la chute du régime Pahlavi qui est à la fois reportage, histoire et réflexion philosophique sur la nature du pouvoir despotique.</p><p>Le livre est construit de manière non linéaire, autour d'une série de photographies que le narrateur feuillette dans sa chambre de Téhéran. Cette structure — des images qui appellent des récits, des récits qui appellent des digressions — correspond à la méthode de Kapuściński : il ne cherche pas à raconter la révolution de l'extérieur, chronologiquement, mais à en saisir la logique interne à travers des scènes, des rencontres, des portraits.</p><p>Le premier temps du livre reconstruit la montée en puissance de Mohammed Reza Pahlavi après le coup d'État de 1953, orchestré par la CIA pour renverser le Premier ministre nationaliste Mossadegh. Kapuściński montre comment le Shah a construit un régime fondé sur deux piliers : la SAVAK (la police secrète, redoutable et omniprésente) et la rente pétrolière. Cette combinaison — répression systématique et redistribution sélective — a permis de contenir pendant deux décennies les tensions sociales engendrées par une modernisation accélérée et profondément inégalitaire.</p><p>Le cœur du livre est une analyse de la psychologie du despotisme. Kapuściński décrit comment le pouvoir absolu isole son détenteur de la réalité : les informations qui remontent jusqu'au Shah sont filtrées, déformées, embellies par des courtisans terrifiés de lui déplaire. Le Shah vit dans un monde de représentations flatteuses qui ne correspond plus à la réalité de son pays. Cette déconnexion progressive est, pour Kapuściński, la clef de l'effondrement : le régime tombe non parce qu'il est extérieurement vaincu, mais parce qu'il ne voit plus venir le danger.</p><p>La révolution islamique est décrite sans sympathie naïve. Kapuściński observe que les foules qui descendent dans la rue pour défier les chars ne suivent pas d'abord Khomeini — elles expriment d'abord une rage accumulée contre l'humiliation, la peur et le mensonge. La figure de Khomeini arrive comme une cristallisation de cette colère, pas comme son origine. Cette nuance est importante : elle évite l'explication réductrice par l'islamisme.</p><p>Le livre se termine sur une réflexion sur les révolutions en général, et sur ce moment où un régime cesse d'être obéi — non parce que la force lui manque, mais parce que la peur qui le soutenait s'est évaporée. C'est cette dissolution de la peur que Kapuściński décrit comme « le moment révolutionnaire » au sens le plus précis : l'instant où les sujets découvrent qu'ils peuvent marcher sans être abattus, et où le régime découvre que ses soldats n'osent plus tirer.</p>`,
+    themeLink: `<p>Le Shah est peut-être le livre de la séance qui répond le plus directement au thème « Le moment révolutionnaire » : il cherche à saisir, dans l'épaisseur de l'événement, précisément ce moment où la révolution devient possible et inévitable. La réponse de Kapuściński est psychologique autant que politique : le moment révolutionnaire est le moment où la peur change de camp.</p><p>Cette analyse articule deux dimensions que les autres livres de la séance traitent séparément. Vayssière analyse les structures économiques et géopolitiques ; Fairbank suit le processus sur deux siècles ; Jean-Jacques Marie reconstitue la biographie d'un révolutionnaire. Kapuściński, lui, s'intéresse à la phénoménologie de la révolution : ce que c'est que de vivre dans un régime qui s'effondre, de l'intérieur.</p><p>La question qu'il pose implicitement — et qui peut nourrir la discussion — est celle-ci : les révolutions sont-elles faites par les révolutionnaires, ou par la dissolution des régimes ? La réponse de Kapuściński penche clairement vers la seconde option, ce qui le distingue des analyses plus volontaristes.</p>`,
+    refs: [
+      { type: "Livre", text: "Le Négus — Ryszard Kapuściński (1978)" },
+      { type: "Livre", text: "La Révolution iranienne — Nikki Keddie (1981)" },
+      { type: "Livre", text: "All the Shah's Men — Stephen Kinzer (2003)" },
+      { type: "Film", text: "Persepolis — Marjane Satrapi (2007)" }
+    ],
+    ratings: { Arnaud: 5, Théophile: 6, Vivienne: 4 }
+  },
+  lenine: {
+    title: "Lénine", author: "Jean-Jacques Marie",
+    genre: "Biographie", pages: 636, edition: "Balland, 2004",
+    isbn: "9782715817388",
+    seance: 4,
+    resume: `<p>La biographie de Lénine par Jean-Jacques Marie est l'une des plus complètes et des plus rigoureuses disponibles en langue française. Historien spécialiste du bolchevisme et des archives soviétiques, Jean-Jacques Marie a bénéficié de l'ouverture partielle des archives russes après 1991 pour restituer la trajectoire de Vladimir Ilitch Oulianov (1870–1924) dans toute sa complexité — l'intellectuel, le stratège, l'homme de parti, et finalement le chef d'État d'un régime qui redéfinissait à lui seul les contours du possible politique.</p><p>Marie commence par l'enfance et la formation du révolutionnaire. La figure du frère aîné, Alexandre, exécuté en 1887 pour complicité dans un attentat raté contre le tsar, est souvent présentée comme l'événement fondateur de l'engagement de Lénine. Marie nuance cette lecture psychologique : Lénine s'est formé dans un milieu intellectuel déjà marqué par le populisme, le nihilisme et les premières traductions du Marx. L'exécution du frère a certainement renforcé une conviction, mais elle n'a pas créé de toutes pièces un révolutionnaire.</p><p>La contribution de Lénine à la théorie révolutionnaire est analysée en détail. Que faire ? (1902) est décrit comme une rupture décisive avec le socialisme romantique : Lénine y défend l'idée d'un parti de révolutionnaires professionnels, disciplinés, agissant comme « avant-garde » du prolétariat. Cette conception — qui deviendra la matrice du léninisme — est aussi une conception de la vérité politique : le Parti sait mieux que la classe ouvrière ce que la classe ouvrière veut. Cette présomption de vérité a des conséquences considérables pour la suite.</p><p>La révolution de 1917 est retracée en deux temps distincts : février (révolution libérale, chute du tsar) et octobre (coup d'État bolchevique, prise du Palais d'Hiver). Marie insiste sur le caractère délibéré et calculé du coup d'octobre : il ne s'agit pas d'une révolution populaire spontanée, mais d'un putsch organisé par un parti minoritaire qui a su profiter d'un vide de pouvoir. La promesse de paix immédiate et de terre pour les paysans a fourni une légitimité de masse que le Parti ne possédait pas par lui-même.</p><p>La période 1918–1924 — la guerre civile, la Terreur rouge, le Komintern, la NEP — est analysée comme une série de pragmatismes tactiques qui s'éloignent progressivement du projet révolutionnaire initial. La répression de Cronstadt en 1921, où Lénine écrase une révolte de marins qui avaient été l'avant-garde de la révolution de 1917, est traitée comme un moment révélateur : le pouvoir révolutionnaire se retourne contre ses propres enfants dès que ceux-ci contestent son autorité.</p><p>Marie consacre les derniers chapitres à la maladie et à la désintégration politique de Lénine entre 1922 et 1924. Ses Lettres au Congrès — le « testament » dans lequel il recommande d'écarter Staline — sont lues non comme une repentance, mais comme une tentative tardive et inefficace de corriger les mécanismes de concentration du pouvoir qu'il avait lui-même mis en place. Le résumé implacable : Lénine a créé le moule dans lequel Staline a coulé le stalinisme.</p>`,
+    themeLink: `<p>Lénine est au cœur de la séance « Le moment révolutionnaire » parce qu'il est, plus que tout autre, le théoricien et l'organisateur de ce moment. Sa contribution à la pensée révolutionnaire consiste précisément à penser comment provoquer, organiser et capitaliser le moment de bascule — là où les autres révolutionnaires attendaient les conditions objectives, Lénine cherchait à créer les conditions subjectives (le parti, la discipline, la propagande) qui permettraient de saisir le moment quand il se présenterait.</p><p>La biographie de Marie montre ce qu'il y a de tragique dans cette rationalisation du moment révolutionnaire : en organisant la révolution comme une prise de pouvoir, Lénine a semé les conditions de sa dérive autoritaire. Le parti d'avant-garde, conçu pour faire la révolution, est aussi la structure qui empêche la révolution de dépasser le stade de la substitution d'une élite dirigeante à une autre.</p><p>En dialogue avec Kapuściński (l'effondrement du Shah) et Vayssière (les révolutions latino-américaines), Lénine représente le cas de la révolution réussie — qui réussit à prendre le pouvoir — mais dont les fruits s'avèrent, là encore, décevants pour les masses au nom desquelles elle a été faite.</p>`,
+    refs: [
+      { type: "Livre", text: "La Révolution russe — Richard Pipes (1990)" },
+      { type: "Livre", text: "Trotski — Jean-Jacques Marie (2006)" },
+      { type: "Livre", text: "Dix jours qui ébranlèrent le monde — John Reed (1919)" },
+      { type: "Livre", text: "The Russian Revolution — Sheila Fitzpatrick (1994)" }
+    ],
+    ratings: { Benjamin: 6, Hugo: 9, Eloi: 6 }
   }
-  document.getElementById('past-list').innerHTML = passees.length ?
-    passees.map(s=>`<div class="past-row"><div><div style="font-size:13px;font-style:italic;font-family:var(--serif)">${s.theme}</div><div style="font-size:11px;color:var(--ink3)">${s.date} · ${s.livres.length} livres</div></div></div>`).join('') :
-    '<div class="no-data">Aucune séance passée.</div>';
+};
+
+const NOTES_RAW = [
+  {membre:"Karim", seance:1, livre:"Richelieu", auteur:"Arnaud Teyssier", note:8},
+  {membre:"Antonin", seance:1, livre:"Ibn Saoud", auteur:"Christian Destremau", note:8},
+  {membre:"Arnaud", seance:1, livre:"Homo domesticus", auteur:"James C. Scott", note:7},
+  {membre:"Benjamin", seance:1, livre:"Richelieu", auteur:"Arnaud Teyssier", note:10},
+  {membre:"Chiara", seance:1, livre:"Ibn Saoud", auteur:"Christian Destremau", note:4},
+  {membre:"Mathilde", seance:1, livre:"Homo domesticus", auteur:"James C. Scott", note:6},
+  {membre:"Théophile", seance:1, livre:"Richelieu", auteur:"Arnaud Teyssier", note:3},
+  {membre:"Hugo", seance:1, livre:"Ibn Saoud", auteur:"Christian Destremau", note:9},
+  {membre:"Thibaud", seance:1, livre:"Homo domesticus", auteur:"James C. Scott", note:7},
+  {membre:"Vivienne", seance:1, livre:"Ibn Saoud", auteur:"Christian Destremau", note:10},
+  {membre:"Eloi", seance:1, livre:"Homo domesticus", auteur:"James C. Scott", note:3},
+  {membre:"Karim", seance:2, livre:"Surcouf", auteur:"Michel Vergé-Franceschi", note:4},
+  {membre:"Antonin", seance:2, livre:"Histoire de Gênes", auteur:"Fabian Levy", note:7},
+  {membre:"Arnaud", seance:2, livre:"Surcouf", auteur:"Michel Vergé-Franceschi", note:4},
+  {membre:"Benjamin", seance:2, livre:"Le monde confisqué", auteur:"Arnaud Orain", note:10},
+  {membre:"Chiara", seance:2, livre:"Histoire de Gênes", auteur:"Fabian Levy", note:10},
+  {membre:"Mathilde", seance:2, livre:"Surcouf", auteur:"Michel Vergé-Franceschi", note:4},
+  {membre:"Théophile", seance:2, livre:"Le monde confisqué", auteur:"Arnaud Orain", note:3},
+  {membre:"Hugo", seance:2, livre:"Histoire de Gênes", auteur:"Fabian Levy", note:7},
+  {membre:"Thibaud", seance:2, livre:"Surcouf", auteur:"Michel Vergé-Franceschi", note:8},
+  {membre:"Vivienne", seance:2, livre:"Le monde confisqué", auteur:"Arnaud Orain", note:2},
+  {membre:"Eloi", seance:2, livre:"Le monde confisqué", auteur:"Arnaud Orain", note:10},
+  {membre:"Karim", seance:3, livre:"L'Étoffe des héros", auteur:"Tom Wolfe", note:3},
+  {membre:"Antonin", seance:3, livre:"L'Espace, nouveaux enjeux géopolitiques", auteur:"Xavier Pasco", note:6},
+  {membre:"Arnaud", seance:3, livre:"Nous ne vivrons pas sur Mars", auteur:"Sylvia Ekström", note:7},
+  {membre:"Benjamin", seance:3, livre:"L'Étoffe des héros", auteur:"Tom Wolfe", note:9},
+  {membre:"Chiara", seance:3, livre:"L'Espace, nouveaux enjeux géopolitiques", auteur:"Xavier Pasco", note:10},
+  {membre:"Mathilde", seance:3, livre:"Nous ne vivrons pas sur Mars", auteur:"Sylvia Ekström", note:2},
+  {membre:"Théophile", seance:3, livre:"L'Étoffe des héros", auteur:"Tom Wolfe", note:3},
+  {membre:"Hugo", seance:3, livre:"L'Espace, nouveaux enjeux géopolitiques", auteur:"Xavier Pasco", note:4},
+  {membre:"Thibaud", seance:3, livre:"Nous ne vivrons pas sur Mars", auteur:"Sylvia Ekström", note:8},
+  {membre:"Vivienne", seance:3, livre:"L'Étoffe des héros", auteur:"Tom Wolfe", note:7},
+  {membre:"Eloi", seance:3, livre:"L'Espace, nouveaux enjeux géopolitiques", auteur:"Xavier Pasco", note:6},
+  {membre:"Karim", seance:4, livre:"Les Révolutions d'Amérique latine", auteur:"Pierre Vayssière", note:7},
+  {membre:"Antonin", seance:4, livre:"La Grande Révolution chinoise", auteur:"John King Fairbank", note:8},
+  {membre:"Arnaud", seance:4, livre:"Le Shah", auteur:"Ryszard Kapuściński", note:5},
+  {membre:"Benjamin", seance:4, livre:"Lénine", auteur:"Jean-Jacques Marie", note:6},
+  {membre:"Chiara", seance:4, livre:"Les Révolutions d'Amérique latine", auteur:"Pierre Vayssière", note:7},
+  {membre:"Mathilde", seance:4, livre:"La Grande Révolution chinoise", auteur:"John King Fairbank", note:8},
+  {membre:"Théophile", seance:4, livre:"Le Shah", auteur:"Ryszard Kapuściński", note:6},
+  {membre:"Hugo", seance:4, livre:"Lénine", auteur:"Jean-Jacques Marie", note:9},
+  {membre:"Thibaud", seance:4, livre:"La Grande Révolution chinoise", auteur:"John King Fairbank", note:7},
+  {membre:"Vivienne", seance:4, livre:"Le Shah", auteur:"Ryszard Kapuściński", note:4},
+  {membre:"Eloi", seance:4, livre:"Lénine", auteur:"Jean-Jacques Marie", note:6}
+];
+
+const BOOK_KEYS = Object.keys(BOOKS);
+
+// Compute averages
+function avgRatings(bookKey) {
+  const b = BOOKS[bookKey];
+  const vals = Object.values(b.ratings || {}).filter(v => v !== null && v !== undefined);
+  if (!vals.length) return null;
+  return (vals.reduce((a,c)=>a+c,0)/vals.length).toFixed(1);
 }
 
-function renderSeances(){
-  document.getElementById('all-seances').innerHTML = DATA.seances.map(s=>{
-    const statusPill = s.statut==='à venir'?`<span class="pill pill-brown">${s.statut}</span>`:s.statut==='passée'?`<span class="pill pill-gray">${s.statut}</span>`:'';
-    const livresHtml = s.livres.map(l=>`<div class="book-row">${coverEl(l)}<div style="flex:1"><div class="book-title">${l.titre}</div><div class="book-author">${l.auteur}</div>${l.resume?`<div style="font-size:12px;color:var(--ink2);line-height:1.55;margin-top:3px">${l.resume}</div>`:''}</div></div>`).join('');
-    const questionsHtml = s.questions.length ? `<hr class="thin"><span class="label">Questions de mise en tension</span><div>${s.questions.map(q=>`<div class="q-row">${q}</div>`).join('')}</div>` : '';
-    return `<div class="card"><div class="seance-header"><div><span class="label">Séance</span><div class="seance-theme">${s.theme}</div><div style="font-size:12px;color:var(--ink3);margin-top:2px">${s.date}</div></div>${statusPill}</div><hr class="thin"><span class="label">Livres</span>${livresHtml}${questionsHtml}</div>`;
+function seanceAvg(seanceId) {
+  const notes = NOTES_RAW.filter(n => n.seance === seanceId);
+  if (!notes.length) return null;
+  return (notes.reduce((a,c)=>a+c.note,0)/notes.length).toFixed(1);
+}
+
+function globalAvg() {
+  const vals = NOTES_RAW.map(n=>n.note);
+  return (vals.reduce((a,c)=>a+c,0)/vals.length).toFixed(1);
+}
+
+// ===================== INIT =====================
+let currentBookKey = null;
+let currentAuthorName = null;
+
+window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('heroAvg').textContent = globalAvg();
+  buildTimeline();
+  buildSeances();
+  buildBooks();
+  buildStats();
+  buildNotesTable();
+  buildTranscript();
+});
+
+// ===================== NAV =====================
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.getElementById('nav-' + name).classList.add('active');
+}
+
+// ===================== TIMELINE =====================
+function buildTimeline() {
+  const track = document.getElementById('timelineTrack');
+  const detail = document.getElementById('timelineDetail');
+  SEANCES.forEach((s, i) => {
+    const item = document.createElement('div');
+    item.className = 'timeline-item';
+    item.innerHTML = `<div class="timeline-dot"></div>
+      <div class="timeline-label">Séance ${s.id} · ${s.date}</div>
+      <div class="timeline-theme">${s.theme}</div>`;
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.timeline-item').forEach(el => el.classList.remove('active'));
+      item.classList.add('active');
+      renderTimelineDetail(s, detail);
+    });
+    track.appendChild(item);
+  });
+}
+
+function renderTimelineDetail(s, container) {
+  const avg = seanceAvg(s.id);
+  const booksHtml = s.books.map(bk => {
+    const b = BOOKS[bk];
+    if (!b) return '';
+    const a = avgRatings(bk);
+    return `<div class="tl-book" onclick="openBook('${bk}')">
+      <span><em>${b.title}</em> — ${b.author}</span>
+      ${a ? `<span class="tl-avg">${a}/10</span>` : ''}
+    </div>`;
   }).join('');
+  container.innerHTML = `<div class="timeline-detail active">
+    <h3>${s.theme}${avg ? ` — moyenne ${avg}/10` : ''}</h3>
+    <div class="tl-books">${booksHtml || '<em style="color:var(--ink3);font-size:0.9rem">Séance à venir</em>'}</div>
+  </div>`;
 }
 
-function renderLivres(){
-  const s = DATA.seances.find(x=>x.id==='s4');
-  if(!s){document.getElementById('livres-content').innerHTML='';return;}
-  const resHtml = s.ressources.length ? s.ressources.map(r=>`<div class="res-item"><span class="res-badge ${badgeClass(r.type)}">${r.type}</span><div><div style="font-size:13px;font-weight:500">${r.titre}</div><div style="font-size:12px;color:var(--ink2);margin-top:2px">${r.note}</div></div></div>`).join('') : '<div class="no-data">Aucune ressource pour cette séance.</div>';
-  document.getElementById('livres-content').innerHTML =
-    `<div class="card"><span class="label">Livres — ${s.theme}</span>${s.livres.map(l=>`<div class="book-row">${coverEl(l)}<div style="flex:1"><div class="book-title">${l.titre}</div><div class="book-author">${l.auteur}</div>${l.resume?`<div style="font-size:12px;color:var(--ink2);line-height:1.55;margin-top:3px">${l.resume}</div>`:''}</div></div>`).join('')}</div>`+
-    `<div class="card"><span class="label">Ressources annexes — ${s.theme}</span>${resHtml}</div>`;
+// ===================== SÉANCES PAGE =====================
+function buildSeances() {
+  const grid = document.getElementById('seancesGrid');
+  SEANCES.forEach(s => {
+    const avg = seanceAvg(s.id);
+    const booksHtml = s.books.map(bk => {
+      const b = BOOKS[bk];
+      if (!b) return '';
+      const ba = avgRatings(bk);
+      return `<li><span><em>${b.title}</em></span><span class="book-avg">${ba ? ba+'/10' : '—'}</span></li>`;
+    }).join('') || '<li><em style="color:var(--ink3)">À venir</em></li>';
+
+    const card = document.createElement('div');
+    card.className = 'seance-card';
+    card.innerHTML = `<div class="seance-card-header">
+      <div>
+        <div class="seance-num">Séance ${s.id} · ${s.date}</div>
+        <div class="seance-theme">${s.theme}</div>
+      </div>
+      ${avg ? `<div class="seance-avg-badge">${avg}/10</div>` : ''}
+    </div>
+    <div class="seance-card-body"><ul class="seance-book-list">${booksHtml}</ul></div>`;
+    card.addEventListener('click', () => {
+      showPage('livres');
+      // optionally filter
+    });
+    grid.appendChild(card);
+  });
 }
 
-function renderTracker(){
-  const s = DATA.seances.find(x=>x.id==='s4');
-  if(!s) return;
-  document.getElementById('prog-bars').innerHTML = s.livres.map(l=>`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span>${l.titre}</span><span style="color:var(--ink3)">0/${DATA.membres.length}</span></div><div class="prog"><div class="prog-f" style="width:0%"></div></div></div>`).join('');
+// ===================== BOOKS PAGE =====================
+let activeFilter = 'Tous';
+
+function buildBooks() {
+  const grid = document.getElementById('booksGrid');
+  const filters = document.getElementById('booksFilters');
+  const genres = ['Tous', ...new Set(BOOK_KEYS.map(k => BOOKS[k].genre))];
+
+  genres.forEach(g => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn' + (g === 'Tous' ? ' active' : '');
+    btn.textContent = g;
+    btn.addEventListener('click', () => {
+      activeFilter = g;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderBookCards();
+    });
+    filters.appendChild(btn);
+  });
+
+  renderBookCards();
 }
 
-function renderArchives(){
-  const passees = DATA.seances.filter(s=>s.statut==='passée');
-  document.getElementById('archives').innerHTML = passees.length ?
-    passees.map(s=>`<div class="past-row"><div><div style="font-size:13px;font-style:italic;font-family:var(--serif)">${s.theme}</div><div style="font-size:11px;color:var(--ink3)">${s.date}</div></div><span class="pill pill-gray">Pas de transcript</span></div>`).join('') :
-    '<div class="no-data">Aucun transcript archivé.</div>';
+function renderBookCards() {
+  const grid = document.getElementById('booksGrid');
+  grid.innerHTML = '';
+  BOOK_KEYS.filter(k => activeFilter === 'Tous' || BOOKS[k].genre === activeFilter).forEach(k => {
+    const b = BOOKS[k];
+    const avg = avgRatings(k);
+    const stars = avg ? Math.round(parseFloat(avg)/2) : 0;
+    const starsHtml = '★'.repeat(stars) + '☆'.repeat(5-stars);
+
+    const card = document.createElement('div');
+    card.className = 'book-card';
+    card.innerHTML = `<div class="book-cover" id="cover-${k}">
+        <div class="book-cover-placeholder">${b.title}</div>
+        <span class="book-genre-tag">${b.genre}</span>
+      </div>
+      <div class="book-card-body">
+        <div class="book-title">${b.title}</div>
+        <button class="book-author-link" onclick="event.stopPropagation();openAuthorFromKey('${k}')">${b.author}</button>
+        <div class="book-meta">
+          <span class="book-pages">${b.pages ? b.pages+' p.' : ''}</span>
+          <span class="book-rating-stars" title="${avg ? avg+'/10' : 'non noté'}">${avg ? starsHtml : ''}</span>
+        </div>
+      </div>`;
+    card.addEventListener('click', () => openBook(k));
+    grid.appendChild(card);
+
+    if (b.isbn) loadCover(k, b.isbn);
+  });
 }
 
-function loadSheet(){
-  const url = document.getElementById('sheet-url').value.trim();
-  if(!url){alert('Veuillez entrer une URL.');return;}
-  const el = document.getElementById('tracker-table');
-  el.innerHTML='<div class="no-data">Chargement...</div>';
-  fetch(url)
-    .then(r=>{if(!r.ok) throw new Error();return r.text();})
-    .then(csv=>{
-      const rows = csv.trim().split('\n').map(r=>{
-        const cells=[];let cur='',inQ=false;
-        for(let c of r){if(c==='"'){inQ=!inQ;}else if(c===','&&!inQ){cells.push(cur.trim());cur='';}else{cur+=c;}}
-        cells.push(cur.trim());return cells;
-      });
-      const headers=rows[0];
-      const data=rows.slice(1).filter(r=>r.length>1&&r[0]);
-      if(!data.length){el.innerHTML='<div class="no-data">Aucune donnée dans le Sheet.</div>';return;}
-      let html=`<div style="overflow-x:auto"><table class="tt"><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>`;
-      data.forEach(row=>{
-        html+=`<tr>${row.map((cell,i)=>{
-          const h=(headers[i]||'').toLowerCase();
-          if(h.includes('note')) return `<td>${stars(cell)}</td>`;
-          return `<td>${cell}</td>`;
-        }).join('')}</tr>`;
-      });
-      html+='</tbody></table></div>';
-      el.innerHTML=html;
-      // update prog bars
-      const s=DATA.seances.find(x=>x.id==='s4');
-      if(s){
-        const counts={};
-        s.livres.forEach(l=>counts[l.titre]=0);
-        data.forEach(row=>{
-          const livre=row[2]||'';
-          Object.keys(counts).forEach(k=>{if(livre.toLowerCase().includes(k.toLowerCase().substring(0,6)))counts[k]++;});
-        });
-        document.getElementById('prog-bars').innerHTML=s.livres.map(l=>{
-          const c=counts[l.titre]||0;
-          const pct=Math.round(c/DATA.membres.length*100);
-          return `<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span>${l.titre}</span><span style="color:var(--ink3)">${c}/${DATA.membres.length}</span></div><div class="prog"><div class="prog-f" style="width:${pct}%"></div></div></div>`;
-        }).join('');
-      }
-    })
-    .catch(()=>{el.innerHTML='<div class="no-data">Impossible de charger le Sheet. Vérifiez que l\'URL est publiée en CSV et accessible publiquement.</div>';});
+function loadCover(key, isbn) {
+  const el = document.getElementById('cover-' + key);
+  if (!el) return;
+  const img = new Image();
+  img.src = `https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg`;
+  img.onload = () => {
+    if (img.naturalWidth > 10) {
+      el.innerHTML = `<img src="${img.src}" alt="couverture"><span class="book-genre-tag">${BOOKS[key].genre}</span>`;
+    }
+  };
 }
 
-function analyzeT(){
-  const text=document.getElementById('ta').value.trim();
-  if(!text){alert('Collez d\'abord un transcript.');return;}
-  const prompt=encodeURIComponent('Voici le transcript d\'une séance de notre club de lecture. Extrais : 1) les thèmes principaux abordés, 2) les désaccords notables entre participants, 3) les formulations ou citations marquantes, 4) un résumé en 8 à 10 lignes.\n\n'+text.substring(0,4000));
-  window.open('https://claude.ai/new?q='+prompt,'_blank');
+// ===================== BOOK MODAL =====================
+function openBook(key) {
+  currentBookKey = key;
+  const b = BOOKS[key];
+  const avg = avgRatings(key);
+
+  document.getElementById('modalGenre').textContent = b.genre.toUpperCase();
+  document.getElementById('modalTitle').textContent = b.title;
+  document.getElementById('modalAuthor').textContent = b.author;
+
+  const s = SEANCES.find(s => s.id === b.seance);
+  document.getElementById('modalSpecs').innerHTML = `
+    ${b.pages ? `<div class="modal-spec"><span class="spec-label">Pages</span><span class="spec-val">${b.pages}</span></div>` : ''}
+    ${b.edition ? `<div class="modal-spec"><span class="spec-label">Édition</span><span class="spec-val">${b.edition}</span></div>` : ''}
+    ${s ? `<div class="modal-spec"><span class="spec-label">Séance</span><span class="spec-val">${s.theme}</span></div>` : ''}
+    ${avg ? `<div class="modal-spec"><span class="spec-label">Note moy.</span><span class="spec-val">${avg}/10</span></div>` : ''}
+  `;
+
+  // Cover
+  const coverEl = document.getElementById('modalCover');
+  const coverPh = document.getElementById('modalCoverPh');
+  coverPh.textContent = b.title;
+  coverEl.innerHTML = `<div class="modal-cover-ph" id="modalCoverPh">${b.title}</div>`;
+  if (b.isbn) {
+    const img = new Image();
+    img.src = `https://covers.openlibrary.org/b/isbn/${b.isbn}-M.jpg`;
+    img.onload = () => { if(img.naturalWidth>10) coverEl.innerHTML = `<img src="${img.src}" alt="couverture">`; };
+  }
+
+  // Tabs
+  document.getElementById('tab-resume').innerHTML = b.resume || '<p><em>Résumé à venir.</em></p>';
+  document.getElementById('tab-theme').innerHTML = b.themeLink || '<p><em>À venir.</em></p>';
+
+  const refsHtml = (b.refs||[]).map(r => `<li><span class="ref-type">${r.type}</span>${r.text}</li>`).join('');
+  document.getElementById('tab-refs').innerHTML = `<ul class="modal-refs-list">${refsHtml || '<li>Aucune référence pour le moment.</li>'}</ul>`;
+
+  // Ratings tab
+  const rats = b.ratings || {};
+  const ratsHtml = Object.entries(rats).filter(([,v])=>v!==null&&v!==undefined).map(([m,v]) => `
+    <div class="rating-row">
+      <div class="member-name">${m}</div>
+      <div class="rating-bar-bg"><div class="rating-bar" style="width:${v*10}%"></div></div>
+      <div class="rating-num">${v}</div>
+    </div>`).join('');
+  document.getElementById('tab-notes').innerHTML = ratsHtml || '<p><em>Aucune note enregistrée.</em></p>';
+
+  // Reset tabs
+  document.querySelectorAll('.modal-tab').forEach((t,i) => t.classList.toggle('active', i===0));
+  document.querySelectorAll('.modal-tab-content').forEach((t,i) => t.classList.toggle('active', i===0));
+
+  document.getElementById('bookModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
-renderAccueil();
-renderSeances();
-renderLivres();
-renderTracker();
-renderArchives();
+function switchTab(name) {
+  const tabMap = { resume: 0, theme: 1, refs: 2, notes: 3 };
+  const idx = tabMap[name];
+  document.querySelectorAll('.modal-tab').forEach((t,i) => t.classList.toggle('active', i===idx));
+  document.querySelectorAll('.modal-tab-content').forEach((t,i) => t.classList.toggle('active', i===idx));
+}
+
+function closeBookModal(e) {
+  if (e.target === document.getElementById('bookModal')) closeBookModalDirect();
+}
+function closeBookModalDirect() {
+  document.getElementById('bookModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ===================== AUTHOR MODAL =====================
+function openAuthorFromKey(key) {
+  currentAuthorName = BOOKS[key].author;
+  openAuthorModal();
+}
+
+function openAuthorModal() {
+  const name = currentBookKey ? BOOKS[currentBookKey].author : currentAuthorName;
+  if (!name) return;
+  const a = AUTHORS[name];
+  document.getElementById('authorName').textContent = name;
+  document.getElementById('authorDates').textContent = a ? a.dates : '';
+  document.getElementById('authorBio').innerHTML = a ? a.bio.split('\n').filter(Boolean).map(p=>`<p>${p}</p>`).join('') : '<p><em>Biographie à compléter.</em></p>';
+  const bibHtml = a && a.bib ? a.bib.map(b=>`<li>${b}</li>`).join('') : '';
+  document.getElementById('authorBib').innerHTML = bibHtml;
+  document.getElementById('authorModal').classList.add('open');
+}
+
+function closeAuthorModal(e) {
+  if (e.target === document.getElementById('authorModal')) closeAuthorModalDirect();
+}
+function closeAuthorModalDirect() {
+  document.getElementById('authorModal').classList.remove('open');
+}
+
+// ===================== STATS =====================
+function buildStats() {
+  const grid = document.getElementById('statsGrid');
+
+  // 1. Notes moyennes par séance
+  const seanceCard = document.createElement('div');
+  seanceCard.className = 'stat-card';
+  const seanceBars = SEANCES.filter(s => s.books.length).map(s => {
+    const a = seanceAvg(s.id);
+    const pct = a ? (parseFloat(a)/10*100).toFixed(0) : 0;
+    return `<div class="bar-chart-row">
+      <div class="bar-chart-label">Séance ${s.id} — ${s.theme}</div>
+      <div class="bar-chart-bar-bg"><div class="bar-chart-bar" style="width:${pct}%"></div></div>
+      <div class="bar-chart-val">${a || '—'}/10</div>
+    </div>`;
+  }).join('');
+  seanceCard.innerHTML = `<div class="stat-card-title">Note moyenne par séance</div>${seanceBars}`;
+  grid.appendChild(seanceCard);
+
+  // 2. Livres les mieux notés
+  const bookCard = document.createElement('div');
+  bookCard.className = 'stat-card';
+  const sortedBooks = BOOK_KEYS.map(k => ({k, avg: parseFloat(avgRatings(k))})).filter(x=>!isNaN(x.avg)).sort((a,b)=>b.avg-a.avg).slice(0, 6);
+  const maxAvg = sortedBooks[0]?.avg || 10;
+  const bookBars = sortedBooks.map(({k,avg}) => {
+    const b = BOOKS[k];
+    return `<div class="bar-chart-row">
+      <div class="bar-chart-label" style="cursor:pointer" onclick="openBook('${k}')">${b.title}</div>
+      <div class="bar-chart-bar-bg"><div class="bar-chart-bar gold" style="width:${(avg/10*100).toFixed(0)}%"></div></div>
+      <div class="bar-chart-val">${avg.toFixed(1)}</div>
+    </div>`;
+  }).join('');
+  bookCard.innerHTML = `<div class="stat-card-title">Livres les mieux notés</div>${bookBars}`;
+  grid.appendChild(bookCard);
+
+  // 3. Répartition par genre
+  const genreCard = document.createElement('div');
+  genreCard.className = 'stat-card';
+  const genreCounts = {};
+  BOOK_KEYS.forEach(k => { const g = BOOKS[k].genre; genreCounts[g] = (genreCounts[g]||0)+1; });
+  const colors = {'Histoire':'#8b1a1a','Biographie':'#c4973a','Géopolitique':'#2a5f8f','Économie':'#2a7f4f','Sciences':'#6b3a8f','Récit':'#8f5a2a','Anthropologie':'#4a7f5a'};
+  const total = Object.values(genreCounts).reduce((a,c)=>a+c,0);
+  const genreHtml = Object.entries(genreCounts).map(([g,c]) =>
+    `<div class="pie-item"><div class="pie-dot" style="background:${colors[g]||'#888'}"></div>${g} (${c})</div>`
+  ).join('');
+  const genreBars = Object.entries(genreCounts).map(([g,c]) =>
+    `<div class="bar-chart-row">
+      <div class="bar-chart-label">${g}</div>
+      <div class="bar-chart-bar-bg"><div class="bar-chart-bar" style="width:${(c/total*100).toFixed(0)}%;background:${colors[g]||'#888'}"></div></div>
+      <div class="bar-chart-val">${c} livre${c>1?'s':''}</div>
+    </div>`
+  ).join('');
+  genreCard.innerHTML = `<div class="stat-card-title">Répartition par genre</div>${genreBars}`;
+  grid.appendChild(genreCard);
+
+  // 4. Notes par membre
+  const memberCard = document.createElement('div');
+  memberCard.className = 'stat-card';
+  const members = [...new Set(NOTES_RAW.map(n=>n.membre))];
+  const memberAvgs = members.map(m => {
+    const ns = NOTES_RAW.filter(n=>n.membre===m).map(n=>n.note);
+    const avg = ns.reduce((a,c)=>a+c,0)/ns.length;
+    return {m, avg: avg.toFixed(1)};
+  }).sort((a,b)=>b.avg-a.avg);
+  const memberBars = memberAvgs.map(({m,avg}) =>
+    `<div class="bar-chart-row">
+      <div class="bar-chart-label">${m}</div>
+      <div class="bar-chart-bar-bg"><div class="bar-chart-bar" style="width:${(parseFloat(avg)/10*100).toFixed(0)}%"></div></div>
+      <div class="bar-chart-val">${avg}</div>
+    </div>`
+  ).join('');
+  memberCard.innerHTML = `<div class="stat-card-title">Note moyenne par membre</div>${memberBars}`;
+  grid.appendChild(memberCard);
+
+  // 5. Total notes
+  const totalCard = document.createElement('div');
+  totalCard.className = 'stat-card';
+  totalCard.innerHTML = `<div class="stat-card-title">Chiffres clés</div>
+    <div style="display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:0.5rem;">
+      <div><div class="big-number">${globalAvg()}</div><div class="big-label">Note globale /10</div></div>
+      <div><div class="big-number">${NOTES_RAW.length}</div><div class="big-label">Notes au total</div></div>
+      <div><div class="big-number">${BOOK_KEYS.length}</div><div class="big-label">Livres lus</div></div>
+    </div>`;
+  grid.appendChild(totalCard);
+
+  // 6. Pages lues total
+  const pagesCard = document.createElement('div');
+  pagesCard.className = 'stat-card';
+  const totalPages = BOOK_KEYS.reduce((a,k)=>a+(BOOKS[k].pages||0),0);
+  const avgPages = Math.round(totalPages/BOOK_KEYS.length);
+  pagesCard.innerHTML = `<div class="stat-card-title">Volume de lecture</div>
+    <div style="display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:0.5rem;">
+      <div><div class="big-number">${totalPages.toLocaleString('fr')}</div><div class="big-label">Pages au total</div></div>
+      <div><div class="big-number">${avgPages}</div><div class="big-label">Pages en moy. par livre</div></div>
+    </div>`;
+  grid.appendChild(pagesCard);
+}
+
+// ===================== NOTES TABLE =====================
+function buildNotesTable() {
+  const tbody = document.getElementById('notesTableBody');
+  NOTES_RAW.forEach(n => {
+    const cls = n.note >= 8 ? 'note-high' : n.note >= 5 ? 'note-mid' : 'note-low';
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${n.membre}</td><td>Séance ${n.seance}</td><td><em>${n.livre}</em></td><td>${n.auteur}</td><td><span class="note-badge ${cls}">${n.note}/10</span></td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+// ===================== TRANSCRIPT =====================
+function buildTranscript() {
+  document.getElementById('transcriptBtn').addEventListener('click', e => {
+    e.preventDefault();
+    const txt = document.getElementById('transcriptText').value.trim();
+    if (!txt) return;
+    const prompt = encodeURIComponent(`Tu es l'assistant d'un club de lecture. Voici le transcript d'une séance. Analyse-le et extrais : 1) Les principales idées discutées, 2) Les points de désaccord, 3) Les citations ou références mentionnées, 4) Une synthèse de la discussion.\n\n${txt}`);
+    window.open(`https://claude.ai/new?q=${prompt}`, '_blank');
+  });
+}
 </script>
 </body>
 </html>
